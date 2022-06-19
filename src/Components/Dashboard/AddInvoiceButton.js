@@ -14,7 +14,7 @@ function AddInvoiceButton({ setOpenForm }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        gap: `${width < 900 ? ".4rem" : ".7rem"}`,
+        gap: `${width < 700 ? ".4rem" : ".7rem"}`,
         padding: ".7rem .8rem",
         background: "#7c5df9",
         color: "#fff",
@@ -38,7 +38,7 @@ function AddInvoiceButton({ setOpenForm }) {
       >
         +
       </div>
-      <div> {width < 900 ? "New" : "New Invoice"} </div>
+      <div> {width < 400 ? "" : width < 700 ? "New" : "New Invoice"} </div>
     </div>
   );
 }

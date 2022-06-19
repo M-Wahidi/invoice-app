@@ -1,24 +1,25 @@
-import SideBar from "../Components/Global/SideBar";
-import Form from "../Components/Form/Form";
 import InvoiceInfoContainer from "../Components/Dashboard/InvoiceInfoContainer";
-import "../Components/Dashboard/Dashboard.css";
-import useWindowDimensions from "../CustomHooks/useWindowDimensions";
 import InvoiceList from "../Components/Dashboard/InvoiceList";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-function Dashboard() {
-  const { width } = useWindowDimensions();
-  const [openForm, setOpenForm] = useState(false);
+import useWindowDimensions from "../CustomHooks/useWindowDimensions";
+
+function Dashboard({ setOpenForm }) {
   const { id } = useParams();
+  const { width } = useWindowDimensions();
+  const [filterItem, setFilterItem] = useState("");
+  const [invoiceLength, setInvoiceLength] = useState(0);
 
   return (
     <div
-      className="dashboard-container"
       style={{
-        display: `${width < 768 ? "block" : "flex"}`,
+        position: "relative",
+        left: `${width < 950 ? "0" : "50px"}`,
+        display: "flex",
+        flexDirection: `${width < 950 ? "column" : "row"}`,
+        height: "100%",
       }}
     >
-      <SideBar />
       <div
         style={{
           width: "100%",
@@ -26,20 +27,22 @@ function Dashboard() {
           flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: "center",
-          maxWidth: "1100px",
+          maxWidth: "880px",
           margin: "0 auto",
           padding: "3rem 1rem",
         }}
       >
-        <InvoiceInfoContainer setOpenForm={setOpenForm} />
-        <InvoiceList id={id} />
+        <InvoiceInfoContainer
+          setOpenForm={setOpenForm}
+          setFilterItem={setFilterItem}
+          invoiceLength={invoiceLength}
+        />
+        <InvoiceList
+          id={id}
+          filterItem={filterItem}
+          setInvoiceLength={setInvoiceLength}
+        />
       </div>
-
-      <Form
-        title="Create Invoice"
-        openForm={openForm}
-        setOpenForm={setOpenForm}
-      />
     </div>
   );
 }

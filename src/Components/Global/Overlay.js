@@ -10,6 +10,7 @@ function Overlay() {
         left: 0,
         top: 0,
         background: "rgba(0,0,0,0.5)",
+        zIndex: "1",
       }}
     ></div>
   );

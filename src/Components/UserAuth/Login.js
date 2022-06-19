@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./login.css";
 import Logo from "../Global/Logo";
 import googleIcon from "../../Assets/google-icon.png";
-import { auth } from "../../API/firebaseconfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, googleProvider } from "../../API/firebaseconfig";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { AuthCTX } from "../../Context/UserContext";
 import Loading from "../Global/Loading";
 import Error from "../Global/Error";
+import addUserToDB from "../../Helper/addUserToDB";
 
 function Login({ setShowForm, loading, setLoading, error, setError }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const { setUser } = AuthCTX();
 
   const loginUser = (e, auth, email, passowrd) => {
@@ -47,6 +46,29 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
     setPassword("");
   };
 
+  const handleLoginWithGoogle = async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      await setUser({ name: user.displayName, isAuth: true });
+      addUserToDB(user.displayName, user.uid);
+      localStorage.setItem(
+        "isAuth",
+        JSON.stringify({
+          isAuth: true,
+          name: user.displayName,
+        })
+      );
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
     <div className="login-background">
       <div className="login-container">
@@ -68,6 +90,7 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                current-password="password"
               />
               <div className="login-remmberme">
                 <input type="checkbox" id="remmber-user" />
@@ -78,7 +101,10 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
               </button>
             </form>
             <h4>Or login with</h4>
-            <button className="btn google-signin">
+            <button
+              onClick={handleLoginWithGoogle}
+              className="btn google-signin"
+            >
               <img src={googleIcon} alt="Google" /> Google
             </button>
             <h4>

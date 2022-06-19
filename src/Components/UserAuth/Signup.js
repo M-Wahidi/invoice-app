@@ -1,19 +1,17 @@
 import { useState } from "react";
 import { updateProfile } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../API/firebaseconfig";
-import { db } from "../../API/firebaseconfig";
 import "./signup.css";
 import Logo from "../Global/Logo";
 import { AuthCTX } from "../../Context/UserContext";
+import addUserToDB from "../../Helper/addUserToDB";
 
 function Signup({ setShowForm, loading, setLoading, error, setError }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassowrd] = useState("");
-  const navigate = useNavigate();
   const { createUser } = AuthCTX();
 
   const handleCreateUser = async (e, auth, email, passowrd) => {
@@ -27,7 +25,6 @@ function Signup({ setShowForm, loading, setLoading, error, setError }) {
       await updateProfile(auth.currentUser, {
         displayName: username,
       });
-      navigate(`/`);
     } catch (err) {
       console.log(err.message);
     }
@@ -37,18 +34,6 @@ function Signup({ setShowForm, loading, setLoading, error, setError }) {
     setEmail("");
     setPassword("");
     setConfirmPassowrd("");
-  };
-
-  // Add to User to DB
-  const addUserToDB = async (username, uid) => {
-    try {
-      await setDoc(doc(db, "Users", uid), {
-        Username: username,
-        invoices: [],
-      });
-    } catch (e) {
-      console.log(e.message);
-    }
   };
 
   return (

@@ -14,9 +14,11 @@ setPersistence(auth, browserSessionPersistence).then(() => {
 });
 
 export const AuthContext = createContext(null);
-function UserContext({ children }) {
+
+export default function UserContext({ children }) {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -43,5 +45,3 @@ function UserContext({ children }) {
 export const AuthCTX = () => {
   return useContext(AuthContext);
 };
-
-export default UserContext;

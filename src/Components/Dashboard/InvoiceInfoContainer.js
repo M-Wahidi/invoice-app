@@ -2,10 +2,9 @@ import React from "react";
 import HomePageTitle from "./HomePageTitle";
 import FilterInvoice from "./FilterInvoice";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
-
 import AddInvoiceButton from "./AddInvoiceButton";
 
-function InvoiceInfoContainer({ setOpenForm }) {
+function InvoiceInfoContainer({ setOpenForm, setFilterItem, invoiceLength }) {
   const { width } = useWindowDimensions();
 
   return (
@@ -22,7 +21,7 @@ function InvoiceInfoContainer({ setOpenForm }) {
         }}
       >
         <>
-          <HomePageTitle />
+          <HomePageTitle invoiceLength={invoiceLength} />
         </>
         <div
           style={{
@@ -32,7 +31,7 @@ function InvoiceInfoContainer({ setOpenForm }) {
             gap: `${width < 900 ? "1rem" : "2.5rem"}`,
           }}
         >
-          <FilterInvoice />
+          <FilterInvoice setFilterItem={setFilterItem} />
           <AddInvoiceButton setOpenForm={setOpenForm} />
         </div>
       </div>

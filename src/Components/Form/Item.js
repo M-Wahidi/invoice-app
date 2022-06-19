@@ -1,10 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
 
-function Item({ handleDelete, id = "" }) {
+function Item({
+  handleDelete,
+  id = "",
+  addItem,
+  handleAddItem,
+  setItemsList,
+  item,
+  title,
+  setOldBillFromInvoice,
+}) {
   const [itemName, setItemName] = useState("");
   const [itemQTY, setItemQty] = useState("");
   const [itemPrice, setPrice] = useState("");
+  const [total, setTotal] = useState("");
+
+  const handleUpdateTotal = () => {
+    setTotal(itemPrice * itemQTY);
+  };
+
+  useEffect(() => {
+    handleUpdateTotal();
+  }, [itemPrice, itemQTY]);
+
+  useEffect(() => {
+    if (handleAddItem) {
+      addItem(id, itemName, itemQTY, itemPrice, total);
+      setItemsList([]);
+      if (title === "Edit Invoice") setOldBillFromInvoice([]);
+    }
+  }, [handleAddItem]);
+
+  useEffect(() => {
+    if (title === "Edit Invoice") {
+      setItemQty(item.qty);
+      setItemName(item.name);
+      setPrice(item.price);
+      setTotal(item.total);
+    }
+  }, []);
 
   return (
     <div
@@ -24,7 +59,7 @@ function Item({ handleDelete, id = "" }) {
       >
         <label htmlFor="tem-name-from">Item Name</label>
         <input
-          value={itemName}
+          defaultValue={title === "Edit Invoice" ? item?.name : ""}
           onChange={(e) => setItemName(e.target.value)}
           type="text"
           style={{ marginTop: "5px", minWidth: "300px" }}
@@ -34,7 +69,7 @@ function Item({ handleDelete, id = "" }) {
       <div className="item-qty-from" style={{ maxWidth: "70px" }}>
         <label htmlFor="item-qty-from"> Qty.</label>
         <input
-          value={itemQTY}
+          defaultValue={title === "Edit Invoice" ? item?.qty : ""}
           onChange={(e) => setItemQty(e.target.value)}
           type="number"
           min={0}
@@ -45,7 +80,7 @@ function Item({ handleDelete, id = "" }) {
       <div className="item-price-from" style={{ maxWidth: "90px" }}>
         <label htmlFor="item-price-from">Price</label>
         <input
-          value={itemPrice}
+          defaultValue={title === "Edit Invoice" ? item?.price : ""}
           onChange={(e) => setPrice(e.target.value)}
           type="number"
           min={0}
@@ -56,12 +91,25 @@ function Item({ handleDelete, id = "" }) {
         className="item-total-from"
         style={{
           width: "150px",
-          marginBottom: "40px",
+          height: "100%",
           marginLeft: "10px",
+          marginTop: "-13px",
+          textAlign: "center",
+          overflow: "hidden",
         }}
       >
         <label htmlFor="item-total-from">Total</label>
-        <div style={{ marginTop: "12px" }}></div>
+        <div
+          style={{
+            marginTop: "12px",
+            color: "#fff",
+            height: "100%",
+            position: "relative",
+            top: "5px",
+          }}
+        >
+          {total || ""}
+        </div>
       </div>
       <div
         onClick={() => id && handleDelete(id)}
@@ -82,4 +130,4 @@ function Item({ handleDelete, id = "" }) {
   );
 }
 
-export default Item;
+export default React.memo(Item);

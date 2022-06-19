@@ -7,6 +7,14 @@
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
 }
+*::-webkit-scrollbar {
+  background: #333;
+  width: 5px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #7c5df9;
+}
+
 a {
   text-decoration: none;
 }
@@ -20,17 +28,13 @@ label {
   opacity: 0.7;
   font-size: 14px;
 }
-.dashboard-container {
-  position: relative;
-}
-
 .loading {
   overflow: hidden;
 }
 
 .sidebar {
   background-color: #1f213a;
-  position: relative;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100px;
@@ -65,7 +69,7 @@ label {
   height: 1px;
   width: 100%;
   position: absolute;
-  top: 39%;
+  top: 55%;
   right: 0;
 }
 
@@ -99,14 +103,14 @@ label {
   justify-content: flex-end;
 }
 
-.mobileNavLowerContainer::after {
+.mobileNavLowerContainer::before {
   content: " ";
   background-color: rgba(201, 201, 201, 0.5);
   width: 1px;
   height: 80px;
-  position: absolute;
+  position: relative;
   top: 0%;
-  right: 82px;
+  left: 70px;
 }
 
 .form-container {
@@ -120,13 +124,6 @@ label {
   left: 0;
   padding: 0 1rem;
   overflow: auto;
-}
-.form-container::-webkit-scrollbar {
-  background: #333;
-  width: 5px;
-}
-.form-container::-webkit-scrollbar-thumb {
-  background: #7c5df9;
 }
 
 .bill-from-container,
@@ -152,7 +149,6 @@ label {
 .item-qty-from input,
 .item-price-from input,
 .item-total-from input {
-  background-color: #1f213a;
   height: 50px;
   border: none;
   border-radius: 5px;
@@ -173,12 +169,16 @@ label {
 .city-from,
 .post__code-from,
 .country-from,
-.invoice-info-container,
 .description-from {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   margin-bottom: 1.5rem;
+}
+.invoice-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .invoice-date label,
@@ -196,11 +196,25 @@ label {
   color: #fff;
   width: 100%;
 }
+
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(100%);
   font-size: 1.3rem;
   position: relative;
   right: 0.2rem;
+}
+.invoice-action-header button:nth-child(1) {
+  background-color: #10121d;
+}
+.invoice-action-header button:nth-child(2) {
+  background-color: rgb(209, 86, 86);
+}
+.invoice-action-header button:nth-child(3) {
+  background-color: #9277ff;
+}
+
+.invoice-action-header button:hover {
+  opacity: 0.7;
 }
 
 @media screen and (max-width: 500px) {

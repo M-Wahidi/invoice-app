@@ -2,7 +2,7 @@ import React from "react";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 import { ThemeFunc } from "../../Context/ThemeContext";
 
-function HomePageTitle() {
+function HomePageTitle({ invoiceLength }) {
   const { width } = useWindowDimensions();
   const { theme } = ThemeFunc();
 
@@ -14,7 +14,9 @@ function HomePageTitle() {
         <div style={{ fontSize: "2rem" }}>Invoices</div>
       )}
       <span style={{ fontSize: ".8rem" }}>
-        {width < 900 ? "7 Invoices" : "There are 7 total Invoices"}{" "}
+        {width < 900
+          ? `${invoiceLength} Invoices`
+          : `There are ${invoiceLength} total Invoices`}
       </span>
     </div>
   );

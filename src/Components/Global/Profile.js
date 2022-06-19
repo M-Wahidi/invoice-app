@@ -1,9 +1,10 @@
 import React from "react";
 import defaultImage from "../../Assets/default-profile-picture.png";
 
-function Profile() {
+function Profile({ setIsOpenProfile }) {
   return (
     <div
+      onClick={() => setIsOpenProfile(true)}
       className="profile-image"
       style={{
         width: "50px",
