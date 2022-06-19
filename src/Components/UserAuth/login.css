@@ -9,14 +9,9 @@
   top: 0;
   left: 0;
   overflow: hidden;
-  background: linear-gradient(
-    90deg,
-    rgba(182, 178, 255, 1) 0%,
-    rgba(166, 198, 204, 1) 100%
-  );
+  background: linear-gradient(90deg, rgba(182, 178, 255, 1) 0%, rgba(166, 198, 204, 1) 100%);
 }
 .login-container {
-  width: 450px;
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4.5px);
@@ -27,7 +22,7 @@
   width: 450px;
   border-radius: 5px;
   overflow: hidden;
-  padding: 77px 50px 30px 50px;
+  padding: 30px 50px;
   text-align: center;
 }
 .login-container h1 {
