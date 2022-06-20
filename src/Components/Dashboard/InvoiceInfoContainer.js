@@ -4,7 +4,7 @@ import FilterInvoice from "./FilterInvoice";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 import AddInvoiceButton from "./AddInvoiceButton";
 
-function InvoiceInfoContainer({ setOpenForm, setFilterItem, invoiceLength }) {
+function InvoiceInfoContainer({ setOpenForm, setFilterItem, invoiceLength, setSortInvoice, sortInvoice }) {
   const { width } = useWindowDimensions();
 
   return (
@@ -20,9 +20,7 @@ function InvoiceInfoContainer({ setOpenForm, setFilterItem, invoiceLength }) {
           overflow: "hidden",
         }}
       >
-        <>
-          <HomePageTitle invoiceLength={invoiceLength} />
-        </>
+        <HomePageTitle invoiceLength={invoiceLength} setSortInvoice={setSortInvoice} sortInvoice={sortInvoice} />
         <div
           style={{
             display: "flex",

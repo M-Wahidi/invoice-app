@@ -26,11 +26,7 @@ function InvoiceItem({ invoices }) {
   };
 
   return (
-    <motion.div
-      initial={{ x: 200, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 40 }}
-    >
+    <motion.div initial={{ x: 200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ type: "spring", stiffness: 40 }}>
       <Link to={`/invoice/${invoiceNo}`}>
         <div
           style={{
@@ -70,7 +66,7 @@ function InvoiceItem({ invoices }) {
             style={{
               minWidth: "160px",
               gridColumnStart: `${width < 800 ? 8 : ""}`,
-              textAlign: "left",
+              textAlign: `${width < 800 ? "right" : "center"}`,
             }}
           >
             {clientName}
@@ -88,20 +84,8 @@ function InvoiceItem({ invoices }) {
 
           <div
             style={{
-              backgroundColor: `${
-                invoiceStatus === "Paid"
-                  ? "rgba(51, 214, 159, 0.05)"
-                  : invoiceStatus === "Pending"
-                  ? "rgba(255, 143, 0, 0.06)"
-                  : "rgba(223, 227, 250, 0.06)"
-              }`,
-              color: `${
-                invoiceStatus === "Paid"
-                  ? "rgba(51, 214, 159)"
-                  : invoiceStatus === "Pending"
-                  ? "#FF8F00"
-                  : "#DFE3FA"
-              }`,
+              backgroundColor: `${invoiceStatus === "Paid" ? "rgba(51, 214, 159, 0.05)" : invoiceStatus === "Pending" ? "rgba(255, 143, 0, 0.06)" : "rgba(223, 227, 250, 0.06)"}`,
+              color: `${invoiceStatus === "Paid" ? "rgba(51, 214, 159)" : invoiceStatus === "Pending" ? "#FF8F00" : "#DFE3FA"}`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",

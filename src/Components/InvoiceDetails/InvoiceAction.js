@@ -4,34 +4,34 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getDoc, doc, setDoc } from "firebase/firestore";
 import { db, auth } from "../../API/firebaseconfig";
 import { ThemeFunc } from "../../Context/ThemeContext";
-
-function InvoiceAction({ invoice, setInvoice, setOpenForm }) {
+function InvoiceAction({ invoice, setInvoice, setOpenForm, setLoading }) {
   const { width } = useWindowDimensions();
   const { invoiceId } = useParams();
   const navigate = useNavigate();
   const { theme } = ThemeFunc();
 
   const handleDelete = async () => {
+    setLoading(true);
     const targetDoc = doc(db, "Users", auth.currentUser.uid);
     const userInvoices = await getDoc(targetDoc);
     const { invoiceList } = userInvoices.data();
-    const filteredInvoice = invoiceList.filter(
-      (elem) => elem.invoiceNo !== invoiceId
-    );
+    const filteredInvoice = invoiceList.filter((elem) => elem.invoiceNo !== invoiceId);
     await setDoc(doc(db, "Users", auth.currentUser.uid), {
       invoiceList: filteredInvoice,
     });
-    navigate(`/dashboard/${auth.currentUser.uid}`);
+    setTimeout(() => {
+      setLoading(false);
+      navigate(`/dashboard/${auth.currentUser.uid}`);
+    }, 500);
   };
 
   const handlePaidInvoiceStatus = async () => {
+    setLoading(true);
     const targetDoc = doc(db, "Users", auth.currentUser.uid);
     const userInvoices = await getDoc(targetDoc);
     const { invoiceList } = userInvoices.data();
     const filteredInvoice = invoiceList.map((elem) => {
-      return elem.invoiceNo === invoiceId
-        ? { ...elem, invoiceStatus: "Paid" }
-        : elem;
+      return elem.invoiceNo === invoiceId ? { ...elem, invoiceStatus: "Paid" } : elem;
     });
     await setDoc(
       doc(db, "Users", auth.currentUser.uid),
@@ -40,15 +40,14 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm }) {
       },
       { merge: true }
     );
-    const targetInvoice = filteredInvoice.find(
-      (elem) => elem.invoiceNo === invoiceId
-    );
+    const targetInvoice = filteredInvoice.find((elem) => elem.invoiceNo === invoiceId);
+    setLoading(false);
     setInvoice(targetInvoice);
   };
 
   return (
     <div
-      className="invoice-action-header"
+      className='invoice-action-header'
       style={{
         marginTop: "2rem",
         color: `${theme ? "#333" : "#fff"}`,
@@ -75,20 +74,8 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm }) {
         <span>Status: </span>
         <span
           style={{
-            backgroundColor: `${
-              invoice?.invoiceStatus === "Paid"
-                ? "rgba(51, 214, 159, 0.05)"
-                : invoice?.invoiceStatus === "Pending"
-                ? "rgba(255, 143, 0, 0.06)"
-                : "rgba(223, 227, 250, 0.06)"
-            }`,
-            color: `${
-              invoice?.invoiceStatus === "Paid"
-                ? "rgba(51, 214, 159)"
-                : invoice?.invoiceStatus === "Pending"
-                ? "#FF8F00"
-                : "#DFE3FA"
-            }`,
+            backgroundColor: `${invoice?.invoiceStatus === "Paid" ? "rgba(51, 214, 159, 0.05)" : invoice?.invoiceStatus === "Pending" ? "rgba(255, 143, 0, 0.06)" : "rgba(223, 227, 250, 0.06)"}`,
+            color: `${invoice?.invoiceStatus === "Paid" ? "rgba(51, 214, 159)" : invoice?.invoiceStatus === "Pending" ? "#FF8F00" : "#DFE3FA"}`,
             padding: ".3rem 1rem",
             borderRadius: "6px",
             display: "flex",

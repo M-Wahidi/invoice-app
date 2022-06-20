@@ -7,12 +7,14 @@ import { AuthCTX } from "../../Context/UserContext";
 import addUserToDB from "../../Helper/addUserToDB";
 import Error from "../Global/Error";
 import Loading from "../Global/Loading";
+
 function Signup({ setShowForm, loading, setLoading, error, setError }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassowrd] = useState("");
   const { createUser } = AuthCTX();
+  const { setUser } = AuthCTX();
 
   const handleCreateUser = async (e, auth, email, passowrd) => {
     e.preventDefault();
@@ -32,6 +34,7 @@ function Signup({ setShowForm, loading, setLoading, error, setError }) {
       await updateProfile(auth.currentUser, {
         displayName: username,
       });
+      setUser({ name: user.displayName, isAuth: true });
     } catch (err) {
       console.log(err.message);
     }

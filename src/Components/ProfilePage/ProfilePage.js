@@ -1,9 +1,12 @@
 import React from "react";
+import defaultImage from "../../Assets/default-profile-picture.png";
+import { auth } from "../../API/firebaseconfig";
 
 function ProfilePage({ setIsOpenProfile }) {
   return (
     <div
-      onClick={setIsOpenProfile(false)}
+      className='profile-overlay'
+      onClick={() => setIsOpenProfile(false)}
       style={{
         backgroundColor: "rgba(0, 0, 0,0.7)",
         backdropFilter: "blur(5px)",
@@ -20,8 +23,8 @@ function ProfilePage({ setIsOpenProfile }) {
       }}
     >
       <div
-        onClick={(e) => e.preventDefault()}
-        className="profile-page-container"
+        onClick={(e) => e.stopPropagation()}
+        className='profile-page-container'
         style={{
           position: "absolute",
           width: "300px",
@@ -38,27 +41,19 @@ function ProfilePage({ setIsOpenProfile }) {
             height: "40%",
             borderRadius: "50%",
           }}
-          src="https://sempreinter.com/wp-content/uploads/2022/04/Lautaro-Martinez-scaled-e1650407368974.jpg"
-          alt="img"
+          src={auth.currentUser.photoURL || defaultImage}
+          alt='img'
         />
         <h2 style={{ color: "#fff" }}>.</h2>
         <div style={{ textAlign: "center", paddingTop: "1rem" }}>
           <h4>
-            <a
-              href="https://www.google.com"
-              src="test"
-              style={{ color: "#fff" }}
-            >
-              Visit Git repo
+            <a href='https://github.com/M-Wahidi' target='_blank' rel='noopener noreferrer' style={{ color: "#fff", textDecoration: "underline" }}>
+              Visit Github
             </a>
           </h4>
           <h4 style={{ marginTop: "1rem" }}>
-            <a
-              href="https://www.google.com"
-              src="test"
-              style={{ color: "#fff" }}
-            >
-              Visit solution page
+            <a href='https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl' target='_blank' rel='noopener noreferrer' style={{ color: "#fff", textDecoration: "underline" }}>
+              Challenge Page
             </a>
           </h4>
         </div>

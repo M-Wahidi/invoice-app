@@ -13,18 +13,18 @@ import { useParams } from "react-router-dom";
 import { db } from "../API/firebaseconfig";
 import { motion } from "framer-motion";
 import { ThemeFunc } from "../Context/ThemeContext";
+import Loading from "../Components/Global/Loading";
 
 function InvoiceDetails({ setOpenForm }) {
   const { width } = useWindowDimensions();
   const [invoice, setInvoice] = useState({});
   const { invoiceId } = useParams();
   const { theme } = ThemeFunc();
+  const [loading, setLoading] = useState(false);
 
   const getInvoice = () => {
     const unsub = onSnapshot(doc(db, "Users", auth.currentUser.uid), (doc) => {
-      setInvoice(
-        doc.data().invoiceList.find((elem) => elem.invoiceNo === invoiceId)
-      );
+      setInvoice(doc.data().invoiceList.find((elem) => elem.invoiceNo === invoiceId));
     });
 
     return () => unsub;
@@ -43,12 +43,26 @@ function InvoiceDetails({ setOpenForm }) {
         flexDirection: `${width < 950 ? "column" : "row"}`,
       }}
     >
-      <div style={{ width: "100%" }}>
-        <motion.div
-          initial={{ x: 200, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 40 }}
+      {loading && (
+        <div
+          style={{
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0,0,0,0.7)",
+            zIndex: 9999,
+            top: 0,
+            left: 0,
+            position: "fixed",
+          }}
         >
+          {loading && <Loading type={"spin"} color={`${theme ? "black" : "white"}`} />}
+        </div>
+      )}
+      <div style={{ width: "100%" }}>
+        <motion.div initial={{ x: 200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ type: "spring", stiffness: 40 }}>
           <div
             style={{
               position: "relative",
@@ -74,11 +88,7 @@ function InvoiceDetails({ setOpenForm }) {
               </span>
               Go back
             </Link>
-            <InvoiceAction
-              invoice={invoice}
-              setInvoice={setInvoice}
-              setOpenForm={setOpenForm}
-            />
+            <InvoiceAction invoice={invoice} setInvoice={setInvoice} setOpenForm={setOpenForm} setLoading={setLoading} />
             <div
               style={{
                 marginTop: "2rem",
@@ -92,12 +102,7 @@ function InvoiceDetails({ setOpenForm }) {
               <InvoiceDetailsInfo invoice={invoice} />
               <InvoiceMiddle invoice={invoice} />
               <InvoiceListItem invoice={invoice} />
-              {width < 700 && (
-                <MobileActions
-                  setInvoice={setInvoice}
-                  setOpenForm={setOpenForm}
-                />
-              )}
+              {width < 700 && <MobileActions setInvoice={setInvoice} setOpenForm={setOpenForm} />}
             </div>
           </div>
         </motion.div>

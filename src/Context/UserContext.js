@@ -1,11 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import {
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  browserSessionPersistence,
-  setPersistence,
-  signOut,
-} from "firebase/auth";
+import { onAuthStateChanged, createUserWithEmailAndPassword, browserSessionPersistence, setPersistence, signOut } from "firebase/auth";
 import { auth } from "../API/firebaseconfig";
 import { useNavigate } from "react-router-dom";
 
@@ -26,7 +20,7 @@ export default function UserContext({ children }) {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser({ name: auth.displayName, isAuth: true });
+        setUser({ name: auth.currentUser.displayName, isAuth: true });
         navigate(`/dashboard/${user.uid}`);
       } else {
         setUser(false);
@@ -35,11 +29,7 @@ export default function UserContext({ children }) {
     });
   }, []);
 
-  return (
-    <AuthContext.Provider value={{ user, setUser, createUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, setUser, createUser }}>{children}</AuthContext.Provider>;
 }
 
 export const AuthCTX = () => {

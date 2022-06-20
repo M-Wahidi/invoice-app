@@ -21,7 +21,7 @@ function Form({ title, openForm, setOpenForm }) {
   const [addressFrom, setAddressFrom] = useState({});
   const [addressTo, setAddressTo] = useState({});
   const [discrpition, setDiscrpition] = useState("");
-  const [invoiceDate, setInvoiceDate] = useState("");
+  const [invoiceDate, setInvoiceDate] = useState(getTodayDate());
   const [payemntTerms, setPaymentTerms] = useState("");
   const [invoiceStatus, setInvoiceStatus] = useState("");
   const invoicePath = useLocation();
@@ -100,9 +100,7 @@ function Form({ title, openForm, setOpenForm }) {
       const targetInvoice = doc(db, "Users", auth.currentUser.uid);
       const invoice = await getDoc(targetInvoice, (doc) => doc);
       const { invoiceList } = invoice.data();
-      const currentInvoice = invoiceList.find(
-        (elem) => elem.invoiceNo === invoiceID
-      );
+      const currentInvoice = invoiceList.find((elem) => elem.invoiceNo === invoiceID);
       setData(currentInvoice);
     }
   };
@@ -131,17 +129,9 @@ function Form({ title, openForm, setOpenForm }) {
   return (
     <>
       <div
-        className="form-container"
+        className='form-container'
         style={{
-          left: `${
-            openForm && width <= 950
-              ? "0px"
-              : openForm && width > 768
-              ? "90px"
-              : width <= 950 && !openForm
-              ? "-800px"
-              : "-700px"
-          }`,
+          left: `${openForm && width <= 950 ? "0px" : openForm && width > 768 ? "90px" : width <= 950 && !openForm ? "-800px" : "-700px"}`,
           backgroundColor: `${theme ? "#fff" : "#141625"}`,
         }}
       >
@@ -154,20 +144,8 @@ function Form({ title, openForm, setOpenForm }) {
         >
           {title}
         </h2>
-        <BillFrom
-          handleAddItem={handleAddItem}
-          addFromAddress={addFromAddress}
-          openForm={openForm}
-          title={title}
-          getInvoiceBillFromData={getInvoiceBillFromData}
-        />
-        <BillTo
-          handleAddItem={handleAddItem}
-          addToAddress={addToAddress}
-          openForm={openForm}
-          title={title}
-          getInvoiceBillFromData={getInvoiceBillFromData}
-        />
+        <BillFrom handleAddItem={handleAddItem} addFromAddress={addFromAddress} openForm={openForm} title={title} getInvoiceBillFromData={getInvoiceBillFromData} />
+        <BillTo handleAddItem={handleAddItem} addToAddress={addToAddress} openForm={openForm} title={title} getInvoiceBillFromData={getInvoiceBillFromData} />
         <InvoiceInfo
           handleAddItem={handleAddItem}
           setDiscrpition={setDiscrpition}
@@ -180,19 +158,11 @@ function Form({ title, openForm, setOpenForm }) {
           title={title}
           getInvoiceBillFromData={getInvoiceBillFromData}
         />
-        <ItemList
-          setItems={setItems}
-          handleAddItem={handleAddItem}
-          addItem={addItem}
-          openForm={openForm}
-          title={title}
-        />
+        <ItemList setItems={setItems} handleAddItem={handleAddItem} addItem={addItem} openForm={openForm} title={title} />
         <FormFooter
           opitionOne={title === "Create Invoice" ? "Discard" : ""}
           opitionTwo={title === "Create Invoice" ? "Save as Draft" : "Cancel"}
-          opitionThree={
-            title === "Create Invoice" ? "Save & Send" : "Save Changes"
-          }
+          opitionThree={title === "Create Invoice" ? "Save & Send" : "Save Changes"}
           setOpenForm={setOpenForm}
           setHandleAddItem={setHandleAddItem}
           setInvoiceStatus={setInvoiceStatus}
