@@ -214,6 +214,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .invoice-action-header button:nth-child(3) {
   background-color: #9277ff;
 }
+.edit-btn {
+  background-color: #10121d !important;
+}
+.delete-btn {
+  background-color: rgb(209, 86, 86) !important;
+}
+.invoiceStatus-btn {
+  background-color: #9277ff !important;
+}
 
 .invoice-action-header button:hover {
   opacity: 0.7;

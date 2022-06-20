@@ -7,23 +7,57 @@ function HomePageTitle({ invoiceLength, setSortInvoice, sortInvoice }) {
   const { theme } = ThemeFunc();
 
   return (
-    <div style={{ color: `${theme ? "#333" : "#fff"}`, userSelect: "none", fontWeight: "bold" }}>
+    <div
+      style={{
+        color: `${theme ? "#333" : "#fff"}`,
+        userSelect: "none",
+        fontWeight: "bold",
+      }}
+    >
       {width < 900 ? (
-        <div style={{ fontSize: "1.4rem" }}>
+        <div style={{ fontSize: "1.4rem", overflow: "hidden" }}>
           Invoices
-          <span style={sortArrowStyle} onClick={() => setSortInvoice((prev) => (prev === "descending" ? "ascending" : "descending"))}>
-            {sortInvoice === "descending" ? <AiOutlineArrowDown /> : <AiOutlineArrowUp />}
+          <span
+            style={sortArrowStyle}
+            onClick={() =>
+              setSortInvoice((prev) =>
+                prev === "descending" ? "ascending" : "descending"
+              )
+            }
+          >
+            {sortInvoice === "descending" ? (
+              <AiOutlineArrowDown />
+            ) : (
+              <AiOutlineArrowUp />
+            )}
           </span>
         </div>
       ) : (
-        <div style={{ fontSize: "2rem", userSelect: "none" }}>
+        <div
+          style={{ fontSize: "2rem", userSelect: "none", overflow: "hidden" }}
+        >
           Invoices
-          <span style={sortArrowStyle} onClick={() => setSortInvoice((prev) => (prev === "descending" ? "ascending" : "descending"))}>
-            {sortInvoice === "descending" ? <AiOutlineArrowDown /> : <AiOutlineArrowUp />}
+          <span
+            style={sortArrowStyle}
+            onClick={() =>
+              setSortInvoice((prev) =>
+                prev === "descending" ? "ascending" : "descending"
+              )
+            }
+          >
+            {sortInvoice === "descending" ? (
+              <AiOutlineArrowDown />
+            ) : (
+              <AiOutlineArrowUp />
+            )}
           </span>
         </div>
       )}
-      <span style={{ fontSize: ".8rem" }}>{width < 900 ? `${invoiceLength} Invoices` : `There are ${invoiceLength} total Invoices`}</span>
+      <span style={{ fontSize: ".8rem" }}>
+        {width < 900
+          ? `${invoiceLength} Invoices`
+          : `There are ${invoiceLength} total Invoices`}
+      </span>
     </div>
   );
 }
@@ -32,6 +66,8 @@ const sortArrowStyle = {
   fontSize: "1.5rem",
   cursor: "pointer",
   marginLeft: "10px",
+  position: "relative",
+  top: ".3rem",
 };
 
 export default HomePageTitle;

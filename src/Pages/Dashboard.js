@@ -22,6 +22,7 @@ function Dashboard({ setOpenForm }) {
         left: `${width < 950 ? "0" : "50px"}`,
         display: "flex",
         flexDirection: `${width < 950 ? "column" : "row"}`,
+        overflow: "hidden",
       }}
     >
       <div
@@ -34,12 +35,35 @@ function Dashboard({ setOpenForm }) {
           maxWidth: "880px",
           margin: "0 auto",
           padding: "3rem 1rem",
+          overflow: "hidden",
         }}
       >
-        <h3 style={{ overflow: "hidden", textAlign: "left", padding: "0 .5rem", width: "100%", color: `${theme ? "#333" : "#fff"}`, textTransform: "capitalize" }}>Hello {user?.name}</h3>
+        <h3
+          style={{
+            overflow: "hidden",
+            textAlign: "left",
+            padding: "0 .5rem",
+            width: "100%",
+            color: `${theme ? "#333" : "#fff"}`,
+            textTransform: "capitalize",
+          }}
+        >
+          Hello {user?.name}
+        </h3>
 
-        <InvoiceInfoContainer sortInvoice={sortInvoice} setSortInvoice={setSortInvoice} setOpenForm={setOpenForm} setFilterItem={setFilterItem} invoiceLength={invoiceLength} />
-        <InvoiceList sortInvoice={sortInvoice} id={id} filterItem={filterItem} setInvoiceLength={setInvoiceLength} />
+        <InvoiceInfoContainer
+          sortInvoice={sortInvoice}
+          setSortInvoice={setSortInvoice}
+          setOpenForm={setOpenForm}
+          setFilterItem={setFilterItem}
+          invoiceLength={invoiceLength}
+        />
+        <InvoiceList
+          sortInvoice={sortInvoice}
+          id={id}
+          filterItem={filterItem}
+          setInvoiceLength={setInvoiceLength}
+        />
       </div>
     </div>
   );

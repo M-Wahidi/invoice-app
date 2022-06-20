@@ -10,7 +10,8 @@ function Overlay() {
         left: 0,
         top: 0,
         background: "rgba(0,0,0,0.5)",
-        zIndex: "1",
+        zIndex: 1,
+        overflow: "hidden",
       }}
     ></div>
   );

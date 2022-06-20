@@ -1,7 +1,7 @@
 import React from "react";
 import LogoImage from "../../Assets/logo.svg";
 
-function Logo({ width, height }) {
+function Logo() {
   return (
     <div
       style={{
