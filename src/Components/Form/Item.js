@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
+import { ThemeFunc } from "../../Context/ThemeContext";
+import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 
 function Item({
   handleDelete,
@@ -15,10 +17,12 @@ function Item({
   const [itemQTY, setItemQty] = useState("");
   const [itemPrice, setPrice] = useState("");
   const [total, setTotal] = useState("");
+  const { theme } = ThemeFunc();
 
   const handleUpdateTotal = () => {
     setTotal(itemPrice * itemQTY);
   };
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     handleUpdateTotal();
@@ -47,6 +51,8 @@ function Item({
         display: "flex",
         gap: ".5rem",
         alignItems: "center",
+        flexWrap: `${width < 375 ? "wrap" : ""}`,
+        position: "relative",
       }}
     >
       <div
@@ -54,74 +60,142 @@ function Item({
         style={{
           display: "flex",
           flexDirection: "column",
-          flexBasis: "100%",
+          flexBasis: `${width < 375 ? "50%" : "40%"}`,
         }}
       >
-        <label htmlFor="tem-name-from">Item Name</label>
+        <label
+          style={{
+            color: `${theme ? "#333" : "#fff"}`,
+            position: "relative",
+            bottom: "2px",
+          }}
+          htmlFor="tem-name-from"
+        >
+          Item Name
+        </label>
         <input
           defaultValue={title === "Edit Invoice" ? item?.name : ""}
           onChange={(e) => setItemName(e.target.value)}
           type="text"
-          style={{ marginTop: "5px", minWidth: "300px" }}
+          style={{
+            position: "relative",
+            maxWidth: "300px",
+            backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
+            border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+            color: `${theme ? "#333" : "#fff"}`,
+          }}
         />
       </div>
 
-      <div className="item-qty-from" style={{ maxWidth: "70px" }}>
-        <label htmlFor="item-qty-from"> Qty.</label>
+      <div
+        className="item-qty-from"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flexBasis: `${width < 375 ? "18%" : "50px"}`,
+        }}
+      >
+        <label
+          style={{
+            color: `${theme ? "#333" : "#fff"}`,
+            position: "relative",
+            bottom: "2px",
+          }}
+          htmlFor="item-qty-from"
+        >
+          Qty.
+        </label>
         <input
           defaultValue={title === "Edit Invoice" ? item?.qty : ""}
           onChange={(e) => setItemQty(e.target.value)}
           type="number"
           min={0}
-          style={{ marginTop: "5px" }}
+          style={{
+            backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
+            border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+            color: `${theme ? "#333" : "#fff"}`,
+            textAlign: "center",
+            margin: "0",
+            padding: "0",
+          }}
         />
       </div>
 
-      <div className="item-price-from" style={{ maxWidth: "90px" }}>
-        <label htmlFor="item-price-from">Price</label>
+      <div
+        className="item-price-from"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flexBasis: `${width < 375 ? "25%" : "20%"}`,
+        }}
+      >
+        <label
+          style={{
+            color: `${theme ? "#333" : "#fff"}`,
+            position: "relative",
+            bottom: "2px",
+          }}
+          htmlFor="item-price-from"
+        >
+          Price
+        </label>
         <input
           defaultValue={title === "Edit Invoice" ? item?.price : ""}
           onChange={(e) => setPrice(e.target.value)}
           type="number"
           min={0}
-          style={{ marginTop: "5px" }}
+          style={{
+            border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+            backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
+            color: `${theme ? "#333" : "#fff"}`,
+          }}
         />
       </div>
       <div
-        className="item-total-from"
         style={{
-          width: "150px",
-          height: "100%",
-          marginLeft: "10px",
-          marginTop: "-13px",
+          width: "110px",
           textAlign: "center",
-          overflow: "hidden",
+          height: "75px",
+          alignSelf: "flex-end",
+          borderRadius: "5px",
+          position: "relative",
+          flexBasis: `${width < 375 ? "75%" : "25%"}`,
         }}
       >
-        <label htmlFor="item-total-from">Total</label>
-        <div
+        <label
           style={{
-            marginTop: "12px",
-            color: "#fff",
-            height: "100%",
+            color: `${theme ? "#333" : "#fff"}`,
             position: "relative",
-            top: "5px",
           }}
+          htmlFor="item-total-from"
         >
-          {total || ""}
-        </div>
+          Total
+        </label>
+        {
+          <p
+            style={{
+              color: `${theme ? "#333" : "#fff"}`,
+              position: "relative",
+              top: "13px",
+            }}
+          >
+            {total || 0}
+          </p>
+        }
       </div>
       <div
         onClick={() => id && handleDelete(id)}
         style={{
           cursor: "pointer",
-          color: "#fff",
+          color: `${theme ? "#333" : "#fff"}`,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           width: "60px",
-          fontSize: "1.4rem",
+          fontSize: "2rem",
           paddingTop: "25px",
+
+          flexBasis: `7%`,
         }}
       >
         <AiFillDelete />

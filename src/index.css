@@ -218,12 +218,30 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 @media screen and (max-width: 500px) {
+  .form-container {
+    padding: 0;
+  }
+  .from-footer {
+    padding: 1rem 0.5rem !important;
+  }
   .from-footer > * {
     margin: 0 !important;
     font-size: 0.6rem !important;
   }
   .from-footer button {
     margin: 0 !important;
-    font-size: 0.6rem !important;
+    font-size: 0.7rem !important;
   }
+}
+@media screen and (max-width: 335px) {
+  .from-footer {
+    flex-direction: column;
+  }
+  .from-footer button {
+    margin: 5px !important;
+  }
+}
+
+input::-webkit-date-and-time-value {
+  text-align: left;
 }

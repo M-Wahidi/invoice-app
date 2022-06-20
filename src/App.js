@@ -8,13 +8,15 @@ import InvoiceDetails from "./Pages/InvoiceDetails";
 import Form from "./Components/Form/Form";
 import SideBar from "./Components/Global/SideBar";
 import ProfilePage from "./Components/ProfilePage/ProfilePage";
+import Loading from "./Components/Global/Loading";
 
 function App() {
   const { theme } = ThemeFunc();
   const { user } = AuthCTX();
   const [openForm, setOpenForm] = useState(false);
-  const location = useLocation().pathname;
   const [isOpenProfile, setIsOpenProfile] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const location = useLocation().pathname;
 
   return (
     <div
@@ -23,33 +25,66 @@ function App() {
         backgroundColor: `${theme ? "#F8F8FB" : "#141625"}`,
       }}
     >
-      {isOpenProfile && <ProfilePage setIsOpenProfile={setIsOpenProfile} />}
-      <Form
-        title={`${
-          location.includes("/dashboard") ? "Create Invoice" : "Edit Invoice"
-        }`}
-        openForm={openForm}
-        setOpenForm={setOpenForm}
-      />
-      {user?.isAuth && <SideBar setIsOpenProfile={setIsOpenProfile} />}
-      <Routes>
-        <Route path="/" element={<UserAuth />} />
-        <Route
-          path="/dashboard/:id"
-          element={<Dashboard openForm={openForm} setOpenForm={setOpenForm} />}
-        />
-        <Route
-          path="/invoice/:invoiceId"
-          element={
-            <InvoiceDetails setOpenForm={setOpenForm} openForm={openForm} />
-          }
-        />
+      {loading && (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {loading && (
+            <Loading type={"spin"} color={`${theme ? "black" : "white"}`} />
+          )}
+        </div>
+      )}
 
-        <Route
-          path="*"
-          element={<h1 style={{ textAlign: "center" }}>404 Not Found</h1>}
-        />
-      </Routes>
+      {!loading && (
+        <>
+          {isOpenProfile && <ProfilePage setIsOpenProfile={setIsOpenProfile} />}
+
+          {user?.isAuth && (
+            <Form
+              title={`${
+                location.includes("/dashboard")
+                  ? "Create Invoice"
+                  : "Edit Invoice"
+              }`}
+              openForm={openForm}
+              setOpenForm={setOpenForm}
+            />
+          )}
+          {user?.isAuth && (
+            <SideBar
+              setIsOpenProfile={setIsOpenProfile}
+              setOpenForm={setOpenForm}
+              setLoading={setLoading}
+            />
+          )}
+          <Routes>
+            <Route path="/" element={<UserAuth />} />
+            <Route
+              path="/dashboard/:id"
+              element={
+                <Dashboard openForm={openForm} setOpenForm={setOpenForm} />
+              }
+            />
+            <Route
+              path="/invoice/:invoiceId"
+              element={
+                <InvoiceDetails setOpenForm={setOpenForm} openForm={openForm} />
+              }
+            />
+
+            <Route
+              path="*"
+              element={<h1 style={{ textAlign: "center" }}>404 Not Found</h1>}
+            />
+          </Routes>
+        </>
+      )}
     </div>
   );
 }

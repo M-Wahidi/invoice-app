@@ -6,11 +6,16 @@ import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 import { auth } from "../../API/firebaseconfig";
 import { signOut } from "firebase/auth";
 import { IoIosLogOut } from "react-icons/io";
-function SideBar({ setIsOpenProfile }) {
-  const { width } = useWindowDimensions();
 
+function SideBar({ setIsOpenProfile, setOpenForm, setLoading }) {
+  const { width } = useWindowDimensions();
   const handleSignOut = () => {
-    signOut(auth);
+    setLoading(true);
+    setTimeout(() => {
+      signOut(auth);
+      setOpenForm(false);
+      setLoading(false);
+    }, 1000);
   };
 
   return (

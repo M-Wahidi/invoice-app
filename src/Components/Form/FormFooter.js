@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeFunc } from "../../Context/ThemeContext";
-
+import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 function FormFooter({
   opitionOne = "",
   opitionTwo = "",
@@ -25,7 +25,7 @@ function FormFooter({
   };
 
   const { theme } = ThemeFunc();
-
+  const { width } = useWindowDimensions();
   const handleSaveClick = () => {
     if (title === "Edit Invoice") {
       setOpenForm((prev) => !prev);
@@ -72,7 +72,13 @@ function FormFooter({
           {opitionOne}
         </button>
       )}
-      <div style={{ display: "flex", gap: ".5rem" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: `${width < 335 ? "" : ".5rem"}`,
+          flexDirection: `${width < 335 ? "column" : "row"}`,
+        }}
+      >
         {opitionTwo && (
           <button onClick={handleDraftClick} style={buttonTwo}>
             {opitionTwo}

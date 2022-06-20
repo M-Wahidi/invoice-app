@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import "./login.css";
 import Logo from "../Global/Logo";
 import googleIcon from "../../Assets/google-icon.png";
@@ -8,23 +8,20 @@ import { AuthCTX } from "../../Context/UserContext";
 import Loading from "../Global/Loading";
 import Error from "../Global/Error";
 import addUserToDB from "../../Helper/addUserToDB";
-import { useEffect } from "react";
 
 function Login({ setShowForm, loading, setLoading, error, setError }) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(localStorage.getItem("password-invoiceApp") || "");
-  const [rememberPassword, setRememberPassword] = useState(localStorage.getItem("password-invoiceApp") ? true : false);
+  const [password, setPassword] = useState(
+    localStorage.getItem("password-invoiceApp") || ""
+  );
+  const [rememberPassword, setRememberPassword] = useState(
+    localStorage.getItem("password-invoiceApp") ? true : false
+  );
   const { setUser } = AuthCTX();
 
   useEffect(() => {
-    if (rememberPassword) {
-      setRememberPassword(true);
-      localStorage.setItem("password-invoiceApp", password);
-    } else {
-      localStorage.clear();
-    }
-  }, [rememberPassword]);
-
+    setPassword(localStorage.getItem("password-invoiceApp"));
+  }, [error]);
   const loginUser = (e, auth, email, passowrd) => {
     e.preventDefault();
     setLoading(true);
@@ -52,7 +49,13 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
         setLoading(false);
       });
 
-    // Reset Form
+    if (!rememberPassword) {
+      localStorage.clear();
+    } else {
+      setRememberPassword(true);
+      localStorage.setItem("password-invoiceApp", password);
+    }
+
     setEmail("");
     setPassword("");
   };
@@ -81,8 +84,8 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
   };
 
   return (
-    <div className='login-background'>
-      <div className='login-container'>
+    <div className="login-background">
+      <div className="login-container">
         <Logo />
 
         <h1>LOGIN</h1>
@@ -90,23 +93,46 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
         {!loading && (
           <>
             <form onSubmit={(e) => loginUser(e, auth, email, password)}>
-              <input type='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-              <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} autoComplete='on' />
-              <div className='login-remmberme'>
-                <input type='checkbox' defaultChecked={rememberPassword || ""} id='remmber-user' onChange={() => setRememberPassword((prev) => !prev)} />
-                <label htmlFor='remmber-user'>Remember Me</label>
+              <input
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="on"
+              />
+              <div className="login-remmberme">
+                <input
+                  type="checkbox"
+                  defaultChecked={rememberPassword || ""}
+                  id="remmber-user"
+                  onChange={() => setRememberPassword((prev) => !prev)}
+                />
+                <label htmlFor="remmber-user">Remember Me</label>
               </div>
-              <button type='submit' className='login-btn'>
+              <button type="submit" className="login-btn">
                 LOGIN
               </button>
             </form>
             <h4>Or login with</h4>
-            <button onClick={handleLoginWithGoogle} className='btn google-signin'>
-              <img src={googleIcon} alt='Google' /> Google
+            <button
+              onClick={handleLoginWithGoogle}
+              className="btn google-signin"
+            >
+              <img src={googleIcon} alt="Google" /> Google
             </button>
             <h4>
               Not a member?
-              <u style={{ marginLeft: "5px" }} className='signup-btn' onClick={() => setShowForm(false)}>
+              <u
+                style={{ marginLeft: "5px" }}
+                className="signup-btn"
+                onClick={() => setShowForm(false)}
+              >
                 Sign up now
               </u>
             </h4>

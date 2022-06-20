@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import getTodayDate from "../../Helper/getTodayDate";
 import { ThemeFunc } from "../../Context/ThemeContext";
-
+import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 function InvoiceInfo({
   setDiscrpition,
   setInvoiceDate,
@@ -15,6 +15,7 @@ function InvoiceInfo({
 }) {
   const [oldBillFromInvoice, setOldBillFromInvoice] = useState({});
   const { theme } = ThemeFunc();
+  const { width } = useWindowDimensions();
   useEffect(() => {
     if (openForm) {
       getInvoiceBillFromData(setOldBillFromInvoice);
@@ -60,6 +61,7 @@ function InvoiceInfo({
               backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
               color: `${theme ? "#333" : "#fff"}`,
               border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+              width: `${width < 645 ? "100vw" : ""}`,
             }}
             onChange={(e) => setInvoiceDate(e.target.value)}
             value={title !== "Edit Invoice" ? getTodayDate() : invoiceDate}
@@ -70,7 +72,7 @@ function InvoiceInfo({
             style={{ color: `${theme ? "#333" : "#fff"}` }}
             htmlFor="payment-terms"
           >
-            Payment Terms{" "}
+            Payment Terms
           </label>
           <select
             onChange={(e) => setPaymentTerms(e.target.value)}
