@@ -84,12 +84,19 @@ function InvoiceItem({ invoices }) {
 
           <div
             style={{
-              backgroundColor: `${invoiceStatus === "Paid" ? "rgba(51, 214, 159, 0.05)" : invoiceStatus === "Pending" ? "rgba(255, 143, 0, 0.06)" : "rgba(223, 227, 250, 0.06)"}`,
-              color: `${invoiceStatus === "Paid" ? "rgba(51, 214, 159)" : invoiceStatus === "Pending" ? "#FF8F00" : "#DFE3FA"}`,
+              backgroundColor: `${
+                invoiceStatus === "Paid"
+                  ? "rgba(51, 214, 159, 0.05)"
+                  : invoiceStatus === "Pending"
+                  ? "rgba(255, 143, 0, 0.06)"
+                  : invoiceStatus === "Draft" && !theme
+                  ? "rgba(223, 227, 250, 0.06)"
+                  : "rgba(55, 59, 83, 0.06)"
+              }`,
+              color: `${invoiceStatus === "Paid" ? "rgba(51, 214, 159)" : invoiceStatus === "Pending" ? "#FF8F00" : invoiceStatus === "Draft" && !theme ? "#DFE3FA" : "#333"}`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-
               width: `${width < 400 ? "100px" : "120px"}`,
               height: "2.5rem",
               borderRadius: "6px",
