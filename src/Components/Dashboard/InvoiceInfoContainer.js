@@ -26,6 +26,7 @@ function InvoiceInfoContainer({ setOpenForm, setFilterItem, invoiceLength, setSo
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: `${width < 450 ? "column-reverse" : ""}`,
             gap: `${width < 900 ? "1rem" : "2.5rem"}`,
           }}
         >

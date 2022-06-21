@@ -4,15 +4,12 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useWindowDimensions from "../CustomHooks/useWindowDimensions";
 import { AuthCTX } from "../Context/UserContext";
-import { ThemeFunc } from "../Context/ThemeContext";
-
 function Dashboard({ setOpenForm }) {
   const { id } = useParams();
   const { width } = useWindowDimensions();
   const [filterItem, setFilterItem] = useState("");
   const [invoiceLength, setInvoiceLength] = useState(0);
   const { user } = AuthCTX();
-  const { theme } = ThemeFunc();
   const [sortInvoice, setSortInvoice] = useState("descending");
 
   return (
@@ -38,32 +35,26 @@ function Dashboard({ setOpenForm }) {
           overflow: "hidden",
         }}
       >
-        <h3
+        <div
           style={{
             overflow: "hidden",
             textAlign: "left",
             padding: "0 .5rem",
             width: "100%",
-            color: `${theme ? "#333" : "#fff"}`,
             textTransform: "capitalize",
+            position: "relative",
+            bottom: "1rem",
+            margin: "0",
+            fontSize: `${width < 450 ? "1.6rem" : "1.9rem"}`,
+            fontWeight: "bold",
+            color: "#7c5df9",
           }}
         >
           Hello {user?.name}
-        </h3>
+        </div>
 
-        <InvoiceInfoContainer
-          sortInvoice={sortInvoice}
-          setSortInvoice={setSortInvoice}
-          setOpenForm={setOpenForm}
-          setFilterItem={setFilterItem}
-          invoiceLength={invoiceLength}
-        />
-        <InvoiceList
-          sortInvoice={sortInvoice}
-          id={id}
-          filterItem={filterItem}
-          setInvoiceLength={setInvoiceLength}
-        />
+        <InvoiceInfoContainer sortInvoice={sortInvoice} setSortInvoice={setSortInvoice} setOpenForm={setOpenForm} setFilterItem={setFilterItem} invoiceLength={invoiceLength} />
+        <InvoiceList sortInvoice={sortInvoice} id={id} filterItem={filterItem} setInvoiceLength={setInvoiceLength} />
       </div>
     </div>
   );

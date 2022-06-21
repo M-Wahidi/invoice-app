@@ -12,52 +12,27 @@ function HomePageTitle({ invoiceLength, setSortInvoice, sortInvoice }) {
         color: `${theme ? "#333" : "#fff"}`,
         userSelect: "none",
         fontWeight: "bold",
+        display: "flex",
+        flexDirection: "column",
+        gap: `${width < 450 ? "1.3rem" : "0"}`,
       }}
     >
       {width < 900 ? (
-        <div style={{ fontSize: "1.4rem", overflow: "hidden" }}>
+        <div style={{ fontSize: `${width < 450 ? "1.3rem" : "1.6rem"}`, overflow: "hidden" }}>
           Invoices
-          <span
-            style={sortArrowStyle}
-            onClick={() =>
-              setSortInvoice((prev) =>
-                prev === "descending" ? "ascending" : "descending"
-              )
-            }
-          >
-            {sortInvoice === "descending" ? (
-              <AiOutlineArrowDown />
-            ) : (
-              <AiOutlineArrowUp />
-            )}
+          <span style={sortArrowStyle} onClick={() => setSortInvoice((prev) => (prev === "descending" ? "ascending" : "descending"))}>
+            {sortInvoice === "descending" ? <AiOutlineArrowDown /> : <AiOutlineArrowUp />}
           </span>
         </div>
       ) : (
-        <div
-          style={{ fontSize: "2rem", userSelect: "none", overflow: "hidden" }}
-        >
+        <div style={{ fontSize: "2rem", userSelect: "none", overflow: "hidden" }}>
           Invoices
-          <span
-            style={sortArrowStyle}
-            onClick={() =>
-              setSortInvoice((prev) =>
-                prev === "descending" ? "ascending" : "descending"
-              )
-            }
-          >
-            {sortInvoice === "descending" ? (
-              <AiOutlineArrowDown />
-            ) : (
-              <AiOutlineArrowUp />
-            )}
+          <span style={sortArrowStyle} onClick={() => setSortInvoice((prev) => (prev === "descending" ? "ascending" : "descending"))}>
+            {sortInvoice === "descending" ? <AiOutlineArrowDown /> : <AiOutlineArrowUp />}
           </span>
         </div>
       )}
-      <span style={{ fontSize: ".8rem" }}>
-        {width < 900
-          ? `${invoiceLength} Invoices`
-          : `There are ${invoiceLength} total Invoices`}
-      </span>
+      <span style={{ fontSize: "1rem" }}>{width < 900 ? `${invoiceLength} Invoices` : `There are ${invoiceLength} total Invoices`}</span>
     </div>
   );
 }

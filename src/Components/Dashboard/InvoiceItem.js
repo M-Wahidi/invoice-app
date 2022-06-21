@@ -37,7 +37,7 @@ function InvoiceItem({ invoices }) {
             backgroundColor: `${theme ? "#fff" : "#1E2139"}`,
             color: `${theme ? " #333" : "#fff"}`,
             padding: `${width < 800 ? " 1rem" : "1.5rem 1rem"}`,
-            fontSize: "1rem",
+            fontSize: `${width < 400 ? ".8rem" : "1rem"}`,
             gap: `${width < 800 ? 0 : "1rem"}`,
             position: "relative",
             marginTop: "1rem",
@@ -46,7 +46,7 @@ function InvoiceItem({ invoices }) {
         >
           <div
             style={{
-              minWidth: "90px",
+              width: "90px",
               gridColumnStart: `${width < 800 ? 1 : ""}`,
               gridColumnEnd: `${width < 800 ? 2 : ""}`,
             }}
@@ -64,7 +64,7 @@ function InvoiceItem({ invoices }) {
           </div>
           <div
             style={{
-              minWidth: "160px",
+              minWidth: "100px",
               gridColumnStart: `${width < 800 ? 8 : ""}`,
               textAlign: `${width < 800 ? "right" : "center"}`,
             }}
@@ -73,7 +73,7 @@ function InvoiceItem({ invoices }) {
           </div>
           <div
             style={{
-              minWidth: "90px",
+              minWidth: "70px",
               gridRowStart: `${width < 800 ? 3 : ""}`,
               fontSize: `${width < 800 ? "22px" : "16px"}`,
               position: "relative",
@@ -89,7 +89,8 @@ function InvoiceItem({ invoices }) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: "120px",
+
+              width: `${width < 400 ? "100px" : "120px"}`,
               height: "2.5rem",
               borderRadius: "6px",
               overflow: "hidden",

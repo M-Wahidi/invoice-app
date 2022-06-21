@@ -14,11 +14,11 @@ function AddInvoiceButton({ setOpenForm }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        gap: `${width < 700 ? ".4rem" : ".7rem"}`,
-        padding: ".7rem .8rem",
+        gap: `${width < 300 ? "0" : width < 700 ? ".4rem" : ".7rem"}`,
+        padding: `${width < 450 ? ".4rem .8rem" : ".7rem .8rem"}`,
         background: "#7c5df9",
         color: "#fff",
-        borderRadius: "20px",
+        borderRadius: "30px",
         cursor: "pointer",
       }}
     >
@@ -30,15 +30,16 @@ function AddInvoiceButton({ setOpenForm }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          borderRadius: "100%",
+          borderRadius: "50%",
           color: "#7c5df9",
           fontWeight: "bold",
           fontSize: "1.2rem",
+          left: 0,
         }}
       >
         +
       </div>
-      <div> {width < 400 ? "" : width < 700 ? "New" : "New Invoice"} </div>
+      <div> {width < 300 ? "" : width < 700 ? "New" : "New Invoice"} </div>
     </div>
   );
 }

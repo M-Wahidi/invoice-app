@@ -32,6 +32,9 @@ label {
 .loading {
   overflow: hidden;
 }
+.App button:hover {
+  opacity: 0.8 !important;
+}
 
 .sidebar {
   background-color: #1f213a;
@@ -222,10 +225,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .invoiceStatus-btn {
   background-color: #9277ff !important;
-}
-
-.invoice-action-header button:hover {
-  opacity: 0.7;
 }
 
 @media screen and (max-width: 500px) {
