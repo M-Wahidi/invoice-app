@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { ThemeFunc } from "../../Context/ThemeContext";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 function FormFooter({
@@ -9,7 +10,12 @@ function FormFooter({
   setHandleAddItem,
   setInvoiceStatus,
   title,
+  error,
+  handleAddItem,
 }) {
+  const { theme } = ThemeFunc();
+  const { width } = useWindowDimensions();
+
   const handleDiscardClick = () => {
     setOpenForm((prev) => !prev);
   };
@@ -24,18 +30,17 @@ function FormFooter({
     setHandleAddItem(true);
   };
 
-  const { theme } = ThemeFunc();
-  const { width } = useWindowDimensions();
   const handleSaveClick = () => {
+    console.log(error);
     if (title === "Edit Invoice") {
       setOpenForm((prev) => !prev);
       setInvoiceStatus("Pending");
       setHandleAddItem(true);
       return;
     }
-    setOpenForm((prev) => !prev);
-    setInvoiceStatus("Pending");
     setHandleAddItem(true);
+    // setOpenForm((prev) => !prev);
+    // setInvoiceStatus("Pending")
   };
 
   return (

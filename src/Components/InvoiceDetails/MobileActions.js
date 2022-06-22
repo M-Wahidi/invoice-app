@@ -16,7 +16,9 @@ function MobileActions({ invoice, setInvoice, setOpenForm, setLoading }) {
     const targetDoc = doc(db, "Users", auth.currentUser.uid);
     const userInvoices = await getDoc(targetDoc);
     const { invoiceList } = userInvoices.data();
-    const filteredInvoice = invoiceList.filter((elem) => elem.invoiceNo !== invoiceId);
+    const filteredInvoice = invoiceList.filter(
+      (elem) => elem.invoiceNo !== invoiceId
+    );
     await setDoc(doc(db, "Users", auth.currentUser.uid), {
       invoiceList: filteredInvoice,
     });
@@ -35,7 +37,9 @@ function MobileActions({ invoice, setInvoice, setOpenForm, setLoading }) {
     const userInvoices = await getDoc(targetDoc);
     const { invoiceList } = userInvoices.data();
     const filteredInvoice = invoiceList.map((elem) => {
-      return elem.invoiceNo === invoiceId ? { ...elem, invoiceStatus: "Paid" } : elem;
+      return elem.invoiceNo === invoiceId
+        ? { ...elem, invoiceStatus: "Paid" }
+        : elem;
     });
     await setDoc(
       doc(db, "Users", auth.currentUser.uid),
@@ -44,14 +48,16 @@ function MobileActions({ invoice, setInvoice, setOpenForm, setLoading }) {
       },
       { merge: true }
     );
-    const targetInvoice = filteredInvoice.find((elem) => elem.invoiceNo === invoiceId);
+    const targetInvoice = filteredInvoice.find(
+      (elem) => elem.invoiceNo === invoiceId
+    );
     setLoading(false);
     setInvoice(targetInvoice);
   };
 
   return (
     <div
-      className='invoice-action-header'
+      className="invoice-action-header"
       style={{
         color: "#fff",
         width: "100%",
@@ -77,15 +83,20 @@ function MobileActions({ invoice, setInvoice, setOpenForm, setLoading }) {
             height: "100%",
             left: 0,
             top: 0,
-            zIndex: 999999,
+            zIndex: 1,
           }}
         >
-          <Modal type='delete' openModal={openModal} setOpenModal={setOpenModal} handleDelete={handleDelete} />
+          <Modal
+            type="delete"
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            handleDelete={handleDelete}
+          />
         </div>
       )}
       <button
         onClick={() => setOpenForm(true)}
-        className='edit-btn'
+        className="edit-btn"
         style={{
           border: "none",
           borderRadius: "20px",
@@ -98,10 +109,18 @@ function MobileActions({ invoice, setInvoice, setOpenForm, setLoading }) {
       >
         Edit
       </button>
-      <button onClick={() => setOpenModal(true)} className='delete-btn' style={buttonStyle}>
+      <button
+        onClick={() => setOpenModal(true)}
+        className="delete-btn"
+        style={buttonStyle}
+      >
         Delete
       </button>
-      <button onClick={handlePaidInvoiceStatus} className='invoiceStatus-btn' style={buttonStyle}>
+      <button
+        onClick={handlePaidInvoiceStatus}
+        className="invoiceStatus-btn"
+        style={buttonStyle}
+      >
         Mark As Paid
       </button>
     </div>

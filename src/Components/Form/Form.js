@@ -24,10 +24,12 @@ function Form({ title, openForm, setOpenForm }) {
   const [invoiceDate, setInvoiceDate] = useState(getTodayDate());
   const [payemntTerms, setPaymentTerms] = useState("");
   const [invoiceStatus, setInvoiceStatus] = useState("");
+  const [error, setError] = useState(false);
   const invoicePath = useLocation();
   const { theme } = ThemeFunc();
 
   const sendInvoice = async () => {
+    if (error) return;
     const invoiceRef = doc(db, "Users", auth.currentUser.uid);
     if (title !== "Edit Invoice") {
       await setDoc(
@@ -94,15 +96,20 @@ function Form({ title, openForm, setOpenForm }) {
     setHandleAddItem(false);
   };
 
-  const getInvoiceBillFromData = async (setData) => {
+  const getInvoiceBillFormData = async (setData) => {
     if (!invoicePath.pathname.includes("/dashboard")) {
       const invoiceID = invoicePath.pathname.split("/")[2];
       const targetInvoice = doc(db, "Users", auth.currentUser.uid);
       const invoice = await getDoc(targetInvoice, (doc) => doc);
       const { invoiceList } = invoice.data();
-      const currentInvoice = invoiceList.find((elem) => elem.invoiceNo === invoiceID);
+      const currentInvoice = invoiceList.find(
+        (elem) => elem.invoiceNo === invoiceID
+      );
       setData(currentInvoice);
     }
+  };
+  const checkEmptyInput = (error) => {
+    setError(error);
   };
 
   useEffect(() => {
@@ -123,15 +130,25 @@ function Form({ title, openForm, setOpenForm }) {
   useEffect(() => {
     if (openForm && title === "Create Invoice") {
       clearForm([setDiscrpition, setInvoiceDate, setPaymentTerms]);
+    } else {
+      setError(false);
     }
   }, [openForm]);
 
   return (
     <>
       <div
-        className='form-container'
+        className="form-container"
         style={{
-          left: `${openForm && width <= 950 ? "0px" : openForm && width > 768 ? "90px" : width <= 950 && !openForm ? "-800px" : "-700px"}`,
+          left: `${
+            openForm && width <= 950
+              ? "0px"
+              : openForm && width > 768
+              ? "90px"
+              : width <= 950 && !openForm
+              ? "-800px"
+              : "-700px"
+          }`,
           backgroundColor: `${theme ? "#fff" : "#141625"}`,
         }}
       >
@@ -144,8 +161,20 @@ function Form({ title, openForm, setOpenForm }) {
         >
           {title}
         </h2>
-        <BillFrom handleAddItem={handleAddItem} addFromAddress={addFromAddress} openForm={openForm} title={title} getInvoiceBillFromData={getInvoiceBillFromData} />
-        <BillTo handleAddItem={handleAddItem} addToAddress={addToAddress} openForm={openForm} title={title} getInvoiceBillFromData={getInvoiceBillFromData} />
+        <BillFrom
+          handleAddItem={handleAddItem}
+          addFromAddress={addFromAddress}
+          openForm={openForm}
+          title={title}
+          getInvoiceBillFormData={getInvoiceBillFormData}
+          checkEmptyInput={checkEmptyInput}
+        />
+        <BillTo
+          handleAddItem={handleAddItem}
+          addToAddress={addToAddress}
+          openForm={openForm}
+          title={title}
+        />
         <InvoiceInfo
           handleAddItem={handleAddItem}
           setDiscrpition={setDiscrpition}
@@ -156,18 +185,38 @@ function Form({ title, openForm, setOpenForm }) {
           payemntTerms={payemntTerms}
           openForm={openForm}
           title={title}
-          getInvoiceBillFromData={getInvoiceBillFromData}
+          getInvoiceBillFormData={getInvoiceBillFormData}
         />
-        <ItemList setItems={setItems} handleAddItem={handleAddItem} addItem={addItem} openForm={openForm} title={title} />
+        <ItemList
+          setItems={setItems}
+          handleAddItem={handleAddItem}
+          addItem={addItem}
+          openForm={openForm}
+          title={title}
+        />
+        {error && (
+          <div style={{ paddingLeft: "1.5rem" }}>
+            <p style={{ color: "rgb(236, 87, 87)", fontSize: "12px" }}>
+              - All fields must be filled.
+            </p>
+            <p style={{ color: "rgb(236, 87, 87)", fontSize: "12px" }}>
+              - An item must be added.
+            </p>
+          </div>
+        )}
         <FormFooter
           opitionOne={title === "Create Invoice" ? "Discard" : ""}
           opitionTwo={title === "Create Invoice" ? "Save as Draft" : "Cancel"}
-          opitionThree={title === "Create Invoice" ? "Save & Send" : "Save Changes"}
+          opitionThree={
+            title === "Create Invoice" ? "Save & Send" : "Save Changes"
+          }
           setOpenForm={setOpenForm}
           setHandleAddItem={setHandleAddItem}
+          handleAddItem={handleAddItem}
           setInvoiceStatus={setInvoiceStatus}
           title={title}
           addressFrom={addressFrom}
+          error={error}
         />
       </div>
       {openForm && <Overlay setOpenForm={setOpenForm} />}

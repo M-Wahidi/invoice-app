@@ -8,6 +8,7 @@ function Loading({ type, color }) {
         alignItems: "center",
         justifyContent: "center",
         overflow: "hidden",
+        zIndex: 999999,
       }}
     >
       <ReactLoading type={type} color={color} className="loading" />

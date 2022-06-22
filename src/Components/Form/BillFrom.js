@@ -7,13 +7,15 @@ function BillFrom({
   addFromAddress,
   openForm,
   title,
-  getInvoiceBillFromData,
+  getInvoiceBillFormData,
+  checkEmptyInput,
 }) {
   const [oldBillFromInvoice, setOldBillFromInvoice] = useState({});
   const [streetAddress, setStreetAddress] = useState("");
   const [city, setCity] = useState("");
   const [postCode, setPostCode] = useState("");
   const [country, setCountry] = useState("");
+  const [error, setError] = useState(false);
   const { theme } = ThemeFunc();
 
   const addressFrom = {
@@ -27,15 +29,17 @@ function BillFrom({
   useEffect(() => {
     if (handleAddItem) {
       addFromAddress({ ...addressFrom });
+      checkHandleEmptyInput();
     }
   }, [handleAddItem]);
 
   useEffect(() => {
     if (openForm && title === "Edit Invoice") {
-      getInvoiceBillFromData(setOldBillFromInvoice);
+      getInvoiceBillFormData(setOldBillFromInvoice);
     }
     if (!openForm) {
       clearForm(addressFun);
+      setError(false);
     }
   }, [openForm]);
 
@@ -47,6 +51,14 @@ function BillFrom({
       setCountry(oldBillFromInvoice?.addressFrom?.country);
     }
   }, [oldBillFromInvoice]);
+
+  const checkHandleEmptyInput = () => {
+    const data = [streetAddress, city, postCode, country].some(
+      (input) => input === ""
+    );
+    checkEmptyInput(data);
+    setError(data);
+  };
 
   return (
     <div className="bill-from-container" style={{ paddingTop: "3rem" }}>
@@ -66,7 +78,13 @@ function BillFrom({
           style={{
             backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
             color: `${theme ? "#333" : "#fff"}`,
-            border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+            border: `${
+              streetAddress === "" && error
+                ? "1px solid rgb(236, 87, 87)"
+                : theme
+                ? "1px solid rgb(223, 227, 250) "
+                : ""
+            }`,
           }}
         />
       </div>
@@ -92,7 +110,13 @@ function BillFrom({
             style={{
               backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
               color: `${theme ? "#333" : "#fff"}`,
-              border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+              border: `${
+                city === "" && error
+                  ? "1px solid rgb(236, 87, 87)"
+                  : theme
+                  ? "1px solid rgb(223, 227, 250) "
+                  : ""
+              }`,
             }}
           />
         </div>
@@ -110,7 +134,13 @@ function BillFrom({
             style={{
               backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
               color: `${theme ? "#333" : "#fff"}`,
-              border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+              border: `${
+                postCode === "" && error
+                  ? "1px solid rgb(236, 87, 87)"
+                  : theme
+                  ? "1px solid rgb(223, 227, 250) "
+                  : ""
+              }`,
             }}
           />
         </div>
@@ -128,7 +158,13 @@ function BillFrom({
             style={{
               backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
               color: `${theme ? "#333" : "#fff"}`,
-              border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+              border: `${
+                country === "" && error
+                  ? "1px solid rgb(236, 87, 87)"
+                  : theme
+                  ? "1px solid rgb(223, 227, 250) "
+                  : ""
+              }`,
             }}
           />
         </div>

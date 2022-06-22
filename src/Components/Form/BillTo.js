@@ -13,10 +13,11 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
   const [postCode, setPostCode] = useState("");
   const [country, setCountry] = useState("");
   const [oldBillFromInvoice, setOldBillFromInvoice] = useState({});
+  const [error, setError] = useState(false);
   const invoicePath = useLocation();
   const { theme } = ThemeFunc();
 
-  const getInvoiceBillFromData = async () => {
+  const getInvoiceBillFormData = async () => {
     if (!invoicePath.pathname.includes("/dashboard")) {
       const invoiceID = invoicePath.pathname.split("/")[2];
       const targetInvoice = doc(db, "Users", auth.currentUser.uid);
@@ -49,16 +50,17 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
   useEffect(() => {
     if (handleAddItem) {
       addToAddress({ ...addressTo });
-      clearForm(addressFunc);
+      checkHandleEmptyInput();
     }
   }, [handleAddItem]);
 
   useEffect(() => {
     if (openForm && title === "Edit Invoice") {
-      getInvoiceBillFromData();
+      getInvoiceBillFormData();
     }
     if (!openForm) {
       clearForm(addressFunc);
+      setError(false);
     }
   }, [openForm]);
 
@@ -72,6 +74,18 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
       setClientName(oldBillFromInvoice?.addressTo?.clientName);
     }
   }, [oldBillFromInvoice]);
+
+  const checkHandleEmptyInput = () => {
+    const data = [
+      clientName,
+      clientEmail,
+      streetAddress,
+      postCode,
+      city,
+      country,
+    ].some((input) => input === "");
+    setError(data);
+  };
 
   return (
     <div className="bill-to-container" style={{ flexWrap: "wrap" }}>
@@ -91,7 +105,13 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
           style={{
             backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
             color: `${theme ? "#333" : "#fff"}`,
-            border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+            border: `${
+              clientName === "" && error
+                ? "1px solid rgb(236, 87, 87)"
+                : theme
+                ? "1px solid rgb(223, 227, 250) "
+                : ""
+            }`,
           }}
         />
       </div>
@@ -110,7 +130,13 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
           style={{
             backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
             color: `${theme ? "#333" : "#fff"}`,
-            border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+            border: `${
+              clientEmail === "" && error
+                ? "1px solid rgb(236, 87, 87)"
+                : theme
+                ? "1px solid rgb(223, 227, 250) "
+                : ""
+            }`,
           }}
         />
       </div>
@@ -129,7 +155,13 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
           style={{
             backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
             color: `${theme ? "#333" : "#fff"}`,
-            border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+            border: `${
+              streetAddress === "" && error
+                ? "1px solid rgb(236, 87, 87)"
+                : theme
+                ? "1px solid rgb(223, 227, 250) "
+                : ""
+            }`,
           }}
         />
       </div>
@@ -149,7 +181,13 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
             style={{
               backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
               color: `${theme ? "#333" : "#fff"}`,
-              border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+              border: `${
+                city === "" && error
+                  ? "1px solid rgb(236, 87, 87)"
+                  : theme
+                  ? "1px solid rgb(223, 227, 250) "
+                  : ""
+              }`,
             }}
           />
         </div>
@@ -167,7 +205,13 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
             style={{
               backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
               color: `${theme ? "#333" : "#fff"}`,
-              border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+              border: `${
+                postCode === "" && error
+                  ? "1px solid rgb(236, 87, 87)"
+                  : theme
+                  ? "1px solid rgb(223, 227, 250) "
+                  : ""
+              }`,
             }}
           />
         </div>
@@ -185,7 +229,13 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
             style={{
               backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
               color: `${theme ? "#333" : "#fff"}`,
-              border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+              border: `${
+                country === "" && error
+                  ? "1px solid rgb(236, 87, 87)"
+                  : theme
+                  ? "1px solid rgb(223, 227, 250) "
+                  : ""
+              }`,
             }}
           />
         </div>
