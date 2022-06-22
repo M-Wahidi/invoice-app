@@ -19,7 +19,7 @@ function Modal({ type, setOpenModal, openModal, handleDelete, handleSignOut }) {
           transform: "translate(-50%, -50%)",
           borderRadius: "6px",
           width: `${width < 520 ? "90%" : "500px"}`,
-          zIndex: 2,
+          zIndex: 3,
         }}
       >
         <Delete setOpenModal={setOpenModal} invoiceId={invoiceId} handleDelete={handleDelete} />

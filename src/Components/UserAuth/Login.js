@@ -8,6 +8,7 @@ import { AuthCTX } from "../../Context/UserContext";
 import Loading from "../Global/Loading";
 import Error from "../Global/Error";
 import addUserToDB from "../../Helper/addUserToDB";
+import { Link } from "react-router-dom";
 
 function Login({ setShowForm, loading, setLoading, error, setError }) {
   const [email, setEmail] = useState("");
@@ -71,11 +72,9 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
           name: user.displayName,
         })
       );
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
     } catch (err) {
       console.log(err.message);
+      setLoading(false);
     }
   };
 

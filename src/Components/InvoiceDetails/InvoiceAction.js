@@ -28,6 +28,7 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm, setLoading }) {
     }, 1000);
   };
   const handlePaidInvoiceStatus = async () => {
+    if (invoice.invoiceStatus === "Paid") return;
     setLoading(true);
     const targetDoc = doc(db, "Users", auth.currentUser.uid);
     const userInvoices = await getDoc(targetDoc);
@@ -72,7 +73,7 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm, setLoading }) {
             height: "100%",
             left: 0,
             top: 0,
-            zIndex: 2,
+            zIndex: 9999,
           }}
         >
           <Modal type='delete' openModal={openModal} setOpenModal={setOpenModal} handleDelete={handleDelete} />
@@ -90,8 +91,16 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm, setLoading }) {
         <span>Status: </span>
         <span
           style={{
-            backgroundColor: `${invoice?.invoiceStatus === "Paid" ? "rgba(51, 214, 159, 0.05)" : invoice?.invoiceStatus === "Pending" ? "rgba(255, 143, 0, 0.06)" : "rgba(223, 227, 250, 0.06)"}`,
-            color: `${invoice?.invoiceStatus === "Paid" ? "rgba(51, 214, 159)" : invoice?.invoiceStatus === "Pending" ? "#FF8F00" : "#DFE3FA"}`,
+            backgroundColor: `${
+              invoice?.invoiceStatus === "Paid"
+                ? "rgba(51, 214, 159, 0.05)"
+                : invoice?.invoiceStatus === "Pending"
+                ? "rgba(255, 143, 0, 0.06)"
+                : invoice?.invoiceStatus === "Draft" && !theme
+                ? "rgba(223, 227, 250, 0.06)"
+                : "rgba(55, 59, 83, 0.06)"
+            }`,
+            color: `${invoice?.invoiceStatus === "Paid" ? "rgba(51, 214, 159)" : invoice?.invoiceStatus === "Pending" ? "#FF8F00" : invoice?.invoiceStatus === "Draft" && !theme ? "#DFE3FA" : "#333"}`,
             padding: ".3rem 1rem",
             borderRadius: "6px",
             display: "flex",
@@ -106,7 +115,7 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm, setLoading }) {
       </div>
 
       <div style={{ display: `${width < 700 ? "none" : "flex"}`, gap: "1rem" }}>
-        <button onClick={() => setOpenForm(true)} style={buttonStyle}>
+        <button onClick={() => setOpenForm(true)} style={{ ...buttonStyle, ...EditButtonStyle }}>
           Edit
         </button>
         <button onClick={() => setOpenModal(true)} style={buttonStyle}>
@@ -127,6 +136,9 @@ const buttonStyle = {
   fontSize: "1rem",
   color: "#fff",
   cursor: "pointer",
+};
+const EditButtonStyle = {
+  backgroundColor: "#333",
 };
 
 export default InvoiceAction;

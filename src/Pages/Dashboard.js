@@ -19,7 +19,6 @@ function Dashboard({ setOpenForm }) {
         left: `${width < 950 ? "0" : "50px"}`,
         display: "flex",
         flexDirection: `${width < 950 ? "column" : "row"}`,
-        overflow: "hidden",
       }}
     >
       <div
@@ -32,7 +31,6 @@ function Dashboard({ setOpenForm }) {
           maxWidth: "880px",
           margin: "0 auto",
           padding: "3rem 1rem",
-          overflow: "hidden",
         }}
       >
         <div

@@ -17,7 +17,7 @@ function SideBar({ setIsOpenProfile, setOpenForm, setLoading }) {
       signOut(auth);
       setOpenForm(false);
       setLoading(false);
-    }, 1000);
+    }, 500);
   };
 
   return (

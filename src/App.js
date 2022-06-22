@@ -9,6 +9,8 @@ import Form from "./Components/Form/Form";
 import SideBar from "./Components/Global/SideBar";
 import ProfilePage from "./Components/ProfilePage/ProfilePage";
 import Loading from "./Components/Global/Loading";
+import ScrollToTop from "./Components/Global/ScrollToTop";
+
 function App() {
   const { theme } = ThemeFunc();
   const { user } = AuthCTX();
@@ -24,17 +26,18 @@ function App() {
         backgroundColor: `${theme ? "#F8F8FB" : "#141625"}`,
       }}
     >
+      <ScrollToTop />
+
       {loading && (
         <div
           style={{
-            width: "100%",
-            height: "100%",
+            minHeight: "100vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          {loading && <Loading type={"spin"} color={`${theme ? "black" : "white"}`} />}
+          {<Loading type={"spin"} color={`${theme ? "black" : "white"}`} />}
         </div>
       )}
 

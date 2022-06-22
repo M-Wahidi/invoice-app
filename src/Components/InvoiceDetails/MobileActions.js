@@ -5,7 +5,7 @@ import { db, auth } from "../../API/firebaseconfig";
 import { ThemeFunc } from "../../Context/ThemeContext";
 import Modal from "../Global/Modal";
 
-function MobileActions({ setInvoice, setOpenForm, setLoading }) {
+function MobileActions({ invoice, setInvoice, setOpenForm, setLoading }) {
   const [openModal, setOpenModal] = useState(false);
   const { invoiceId } = useParams();
   const { theme } = ThemeFunc();
@@ -16,9 +16,7 @@ function MobileActions({ setInvoice, setOpenForm, setLoading }) {
     const targetDoc = doc(db, "Users", auth.currentUser.uid);
     const userInvoices = await getDoc(targetDoc);
     const { invoiceList } = userInvoices.data();
-    const filteredInvoice = invoiceList.filter(
-      (elem) => elem.invoiceNo !== invoiceId
-    );
+    const filteredInvoice = invoiceList.filter((elem) => elem.invoiceNo !== invoiceId);
     await setDoc(doc(db, "Users", auth.currentUser.uid), {
       invoiceList: filteredInvoice,
     });
@@ -30,14 +28,14 @@ function MobileActions({ setInvoice, setOpenForm, setLoading }) {
   };
 
   const handlePaidInvoiceStatus = async () => {
+    if (invoice.invoiceStatus === "Paid") return;
+
     setLoading(true);
     const targetDoc = doc(db, "Users", auth.currentUser.uid);
     const userInvoices = await getDoc(targetDoc);
     const { invoiceList } = userInvoices.data();
     const filteredInvoice = invoiceList.map((elem) => {
-      return elem.invoiceNo === invoiceId
-        ? { ...elem, invoiceStatus: "Paid" }
-        : elem;
+      return elem.invoiceNo === invoiceId ? { ...elem, invoiceStatus: "Paid" } : elem;
     });
     await setDoc(
       doc(db, "Users", auth.currentUser.uid),
@@ -46,16 +44,14 @@ function MobileActions({ setInvoice, setOpenForm, setLoading }) {
       },
       { merge: true }
     );
-    const targetInvoice = filteredInvoice.find(
-      (elem) => elem.invoiceNo === invoiceId
-    );
+    const targetInvoice = filteredInvoice.find((elem) => elem.invoiceNo === invoiceId);
     setLoading(false);
     setInvoice(targetInvoice);
   };
 
   return (
     <div
-      className="invoice-action-header"
+      className='invoice-action-header'
       style={{
         color: "#fff",
         width: "100%",
@@ -84,16 +80,12 @@ function MobileActions({ setInvoice, setOpenForm, setLoading }) {
             zIndex: 999999,
           }}
         >
-          <Modal
-            openModal={openModal}
-            setOpenModal={setOpenModal}
-            handleDelete={handleDelete}
-          />
+          <Modal type='delete' openModal={openModal} setOpenModal={setOpenModal} handleDelete={handleDelete} />
         </div>
       )}
       <button
         onClick={() => setOpenForm(true)}
-        className="edit-btn"
+        className='edit-btn'
         style={{
           border: "none",
           borderRadius: "20px",
@@ -101,22 +93,15 @@ function MobileActions({ setInvoice, setOpenForm, setLoading }) {
           fontSize: "14px",
           color: "#fff",
           cursor: "pointer",
+          background: "#333",
         }}
       >
         Edit
       </button>
-      <button
-        onClick={() => setOpenModal(true)}
-        className="delete-btn"
-        style={buttonStyle}
-      >
+      <button onClick={() => setOpenModal(true)} className='delete-btn' style={buttonStyle}>
         Delete
       </button>
-      <button
-        onClick={handlePaidInvoiceStatus}
-        className="invoiceStatus-btn"
-        style={buttonStyle}
-      >
+      <button onClick={handlePaidInvoiceStatus} className='invoiceStatus-btn' style={buttonStyle}>
         Mark As Paid
       </button>
     </div>
@@ -131,5 +116,7 @@ const buttonStyle = {
   color: "#fff",
   cursor: "pointer",
 };
-
+const EditButtonStyle = {
+  backgroundColor: "#333",
+};
 export default MobileActions;

@@ -41,6 +41,7 @@ function InvoiceDetails({ setOpenForm }) {
         display: "flex",
         flexDirection: `${width < 950 ? "column" : "row"}`,
         overflow: "hidden",
+        paddingTop: "1rem",
       }}
     >
       {loading && (
@@ -104,7 +105,7 @@ function InvoiceDetails({ setOpenForm }) {
               <InvoiceDetailsInfo invoice={invoice} />
               <InvoiceMiddle invoice={invoice} />
               <InvoiceListItem invoice={invoice} />
-              {width < 700 && <MobileActions setInvoice={setInvoice} setOpenForm={setOpenForm} setLoading={setLoading} />}
+              {width < 700 && <MobileActions invoice={invoice} setInvoice={setInvoice} setOpenForm={setOpenForm} setLoading={setLoading} />}
             </div>
           </div>
         </motion.div>
