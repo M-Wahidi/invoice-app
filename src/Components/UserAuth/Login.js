@@ -8,14 +8,14 @@ import { AuthCTX } from "../../Context/UserContext";
 import Loading from "../Global/Loading";
 import Error from "../Global/Error";
 import addUserToDB from "../../Helper/addUserToDB";
-import { Link } from "react-router-dom";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 function Login({ setShowForm, loading, setLoading, error, setError }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState(localStorage.getItem("password-invoiceApp") || "");
   const [rememberPassword, setRememberPassword] = useState(localStorage.getItem("password-invoiceApp") ? true : false);
   const { setUser } = AuthCTX();
-
+  const [isShowPassword, setIsShowPassword] = useState(false);
   useEffect(() => {
     setPassword(localStorage.getItem("password-invoiceApp"));
   }, [error]);
@@ -23,6 +23,7 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
     e.preventDefault();
     setLoading(true);
     setError(false);
+
     // Login User
     signInWithEmailAndPassword(auth, email, passowrd)
       .then((userCredential) => {
@@ -89,10 +90,29 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
           <>
             <form onSubmit={(e) => loginUser(e, auth, email, password)}>
               <input type='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-              <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} autoComplete='on' />
-              <div className='login-remmberme'>
-                <input type='checkbox' defaultChecked={rememberPassword || ""} id='remmber-user' onChange={() => setRememberPassword((prev) => !prev)} />
-                <label htmlFor='remmber-user'>Remember Me</label>
+              <div style={{ position: "relative", cursor: "pointer" }}>
+                <input
+                  className='password-input'
+                  type={`${isShowPassword ? "text" : "password"}`}
+                  placeholder='Password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete='on'
+                />
+                <span onClick={() => setIsShowPassword((prev) => !prev)} style={{ position: "absolute", top: "20px", right: "7px", fontSize: "20px" }}>
+                  {isShowPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
+                </span>
+              </div>
+
+              <div className='login-remember'>
+                <div>
+                  <input style={{ marginRight: "5px" }} type='checkbox' defaultChecked={rememberPassword || ""} id='remember-user' onChange={() => setRememberPassword((prev) => !prev)} />
+                  <label htmlFor='remember-user'>Remember Me</label>
+                </div>
+
+                <label style={{ cursor: "pointer", textAlign: "right", color: "blue", textDecoration: "underline" }} onClick={() => setShowForm(2)}>
+                  Forget Password?
+                </label>
               </div>
               <button type='submit' className='login-btn'>
                 LOGIN
@@ -104,7 +124,7 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
             </button>
             <h4>
               Not a member?
-              <u style={{ marginLeft: "5px" }} className='signup-btn' onClick={() => setShowForm(false)}>
+              <u style={{ marginLeft: "5px" }} className='signup-btn' onClick={() => setShowForm(1)}>
                 Sign up now
               </u>
             </h4>

@@ -22,11 +22,7 @@ function Modal({ type, setOpenModal, openModal, handleDelete, handleSignOut }) {
           zIndex: 999,
         }}
       >
-        <Delete
-          setOpenModal={setOpenModal}
-          invoiceId={invoiceId}
-          handleDelete={handleDelete}
-        />
+        <Delete setOpenModal={setOpenModal} invoiceId={invoiceId} handleDelete={handleDelete} />
       </div>
     </div>
   ) : (
@@ -57,9 +53,7 @@ function Modal({ type, setOpenModal, openModal, handleDelete, handleSignOut }) {
 const Delete = ({ setOpenModal, invoiceId, handleDelete }) => {
   return (
     <div>
-      <h3 style={{ paddingBottom: ".5rem" }}>
-        Are You Sure You Want To Delete Invoice No. #{invoiceId}{" "}
-      </h3>
+      <h3 style={{ paddingBottom: ".5rem" }}>Are You Sure You Want To Delete Invoice No. #{invoiceId} </h3>
       <button style={modalButtonStyle} onClick={handleDelete}>
         Delete
       </button>
@@ -73,19 +67,11 @@ const Delete = ({ setOpenModal, invoiceId, handleDelete }) => {
 const Logout = ({ setOpenModal, handleSignOut }) => {
   return (
     <div>
-      <h3 style={{ paddingBottom: ".5rem" }}>
-        Are You Sure You Want To Logout
-      </h3>
-      <button
-        style={{ ...modalButtonStyle, ...btnColorLogout }}
-        onClick={handleSignOut}
-      >
+      <h3 style={{ paddingBottom: ".5rem" }}>Are You Sure You Want To Logout</h3>
+      <button style={{ ...modalButtonStyle, ...btnColorLogout }} onClick={handleSignOut}>
         Logout
       </button>
-      <button
-        style={{ ...modalButtonStyle, ...btnColorCancel }}
-        onClick={() => setOpenModal(false)}
-      >
+      <button style={{ ...modalButtonStyle, ...btnColorCancel }} onClick={() => setOpenModal(false)}>
         Cancel
       </button>
     </div>

@@ -2,18 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ThemeFunc } from "../../Context/ThemeContext";
 import getTodayDate from "../../Helper/getTodayDate";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
-function InvoiceInfo({
-  setDiscrpition,
-  setInvoiceDate,
-  setPaymentTerms,
-  discrpition,
-  payemntTerms,
-  title,
-  openForm,
-  getInvoiceBillFormData,
-  invoiceDate,
-  handleAddItem,
-}) {
+function InvoiceInfo({ setDiscrpition, setInvoiceDate, setPaymentTerms, discrpition, payemntTerms, title, openForm, getInvoiceBillFormData, invoiceDate, handleAddItem }) {
   const [oldBillFromInvoice, setOldBillFromInvoice] = useState({});
   const [error, setError] = useState(false);
   const { theme } = ThemeFunc();
@@ -29,7 +18,6 @@ function InvoiceInfo({
 
   useEffect(() => {
     if (handleAddItem) {
-      checkHandleEmptyInput();
     }
   }, [handleAddItem]);
 
@@ -41,13 +29,8 @@ function InvoiceInfo({
     }
   }, [oldBillFromInvoice]);
 
-  const checkHandleEmptyInput = () => {
-    const data = [discrpition].some((input) => input === "");
-    setError(data);
-  };
-
   return (
-    <div className="invoice-info-container" style={{ padding: "0 1rem" }}>
+    <div className='invoice-info-container' style={{ padding: "0 1rem" }}>
       <div
         style={{
           display: "flex",
@@ -56,7 +39,7 @@ function InvoiceInfo({
         }}
       >
         <div
-          className="invoice-date"
+          className='invoice-date'
           style={{
             flex: 1,
             minWidth: "280px",
@@ -64,14 +47,11 @@ function InvoiceInfo({
             flexDirection: "column",
           }}
         >
-          <label
-            style={{ color: `${theme ? "#333" : "#fff"}` }}
-            htmlFor="invoice-d onate"
-          >
+          <label style={{ color: `${theme ? "#333" : "#fff"}` }} htmlFor='invoice-d onate'>
             Invoice Date
           </label>
           <input
-            type="date"
+            type='date'
             style={{
               marginTop: "7px",
               backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
@@ -84,11 +64,8 @@ function InvoiceInfo({
             value={invoiceDate || getTodayDate()}
           />
         </div>
-        <div className="payment-terms" style={{ flex: 1, minWidth: "280px" }}>
-          <label
-            style={{ color: `${theme ? "#333" : "#fff"}` }}
-            htmlFor="payment-terms"
-          >
+        <div className='payment-terms' style={{ flex: 1, minWidth: "280px" }}>
+          <label style={{ color: `${theme ? "#333" : "#fff"}` }} htmlFor='payment-terms'>
             Payment Terms
           </label>
           <select
@@ -101,34 +78,25 @@ function InvoiceInfo({
               cursor: "pointer",
             }}
           >
-            <option value="Net 30 Days">Net 30 Days</option>
-            <option value="Net 14 Days">Net 14 Days </option>
-            <option value="Net 7 Days">Net 7 Days </option>
-            <option value="Net 1 Days">Net 1 Day </option>
+            <option value='Net 30 Days'>Net 30 Days</option>
+            <option value='Net 14 Days'>Net 14 Days </option>
+            <option value='Net 7 Days'>Net 7 Days </option>
+            <option value='Net 1 Days'>Net 1 Day </option>
           </select>
         </div>
       </div>
-      <div className="description-from" style={{ marginTop: "1rem" }}>
-        <label
-          style={{ color: `${theme ? "#333" : "#fff"}` }}
-          htmlFor="from-description"
-        >
+      <div className='description-from' style={{ marginTop: "1rem" }}>
+        <label style={{ color: `${theme ? "#333" : "#fff"}` }} htmlFor='from-description'>
           Description
         </label>
         <input
-          type="text"
+          type='text'
           onChange={(e) => setDiscrpition(e.target.value)}
           value={discrpition}
           style={{
             backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
             color: `${theme ? "#333" : "#fff"}`,
-            border: `${
-              discrpition === "" && error
-                ? "1px solid rgb(236, 87, 87)"
-                : theme
-                ? "1px solid rgb(223, 227, 250) "
-                : ""
-            }`,
+            border: `${discrpition === "" && error ? "1px solid rgb(236, 87, 87)" : theme ? "1px solid rgb(223, 227, 250) " : ""}`,
           }}
         />
       </div>

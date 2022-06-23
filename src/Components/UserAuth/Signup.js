@@ -7,12 +7,15 @@ import { AuthCTX } from "../../Context/UserContext";
 import addUserToDB from "../../Helper/addUserToDB";
 import Error from "../Global/Error";
 import Loading from "../Global/Loading";
-
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 function Signup({ setShowForm, loading, setLoading, error, setError }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isShowPasswordOne, setIsShowPasswordOne] = useState(false);
   const [confirmPassword, setConfirmPassowrd] = useState("");
+  const [isShowPasswordTwo, setIsShowPasswordTwo] = useState(false);
+
   const { createUser } = AuthCTX();
   const { setUser } = AuthCTX();
 
@@ -37,6 +40,7 @@ function Signup({ setShowForm, loading, setLoading, error, setError }) {
       setUser({ name: user.displayName, isAuth: true });
     } catch (err) {
       console.log(err.message);
+      setError(err.message);
     }
     setTimeout(() => {
       setLoading(false);
@@ -58,15 +62,41 @@ function Signup({ setShowForm, loading, setLoading, error, setError }) {
             <form onSubmit={(e) => handleCreateUser(e, auth, email, password)}>
               <input type='text' placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} />
               <input type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-              <input autoComplete='on' type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-              <input autoComplete='on' type='password' placeholder='Confirm Password' value={confirmPassword} onChange={(e) => setConfirmPassowrd(e.target.value)} />
+              <div style={{ position: "relative", cursor: "pointer" }}>
+                <input
+                  className='password-input'
+                  type={`${isShowPasswordOne ? "text" : "password"}`}
+                  placeholder='Password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete='on'
+                />
+                <span onClick={() => setIsShowPasswordOne((prev) => !prev)} style={{ position: "absolute", top: "20px", right: "7px", fontSize: "20px" }}>
+                  {isShowPasswordOne ? <AiFillEye /> : <AiFillEyeInvisible />}
+                </span>
+              </div>
+
+              <div style={{ position: "relative", cursor: "pointer" }}>
+                <input
+                  className='password-input'
+                  type={`${isShowPasswordTwo ? "text" : "password"}`}
+                  placeholder='Confirm Password'
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassowrd(e.target.value)}
+                  autoComplete='on'
+                />
+                <span onClick={() => setIsShowPasswordTwo((prev) => !prev)} style={{ position: "absolute", top: "20px", right: "7px", fontSize: "20px" }}>
+                  {isShowPasswordTwo ? <AiFillEye /> : <AiFillEyeInvisible />}
+                </span>
+              </div>
+
               <button type='submit' className='signup-btn'>
                 signup
               </button>
             </form>
             <h4>
               You Have account?
-              <u style={{ marginLeft: "5px" }} className='login-btn' onClick={() => setShowForm(true)}>
+              <u style={{ marginLeft: "5px" }} className='login-btn' onClick={() => setShowForm(0)}>
                 Login in now
               </u>
             </h4>

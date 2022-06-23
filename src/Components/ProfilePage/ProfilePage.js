@@ -9,7 +9,6 @@ function ProfilePage({ setIsOpenProfile }) {
       onClick={() => setIsOpenProfile(false)}
       style={{
         backgroundColor: "rgba(0, 0, 0,0.7)",
-        backdropFilter: "blur(5px)",
         position: "absolute",
         left: 0,
         top: 0,

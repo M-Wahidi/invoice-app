@@ -3,16 +3,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { ThemeFunc } from "../../Context/ThemeContext";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 
-function Item({
-  handleDelete,
-  id = "",
-  addItem,
-  handleAddItem,
-  setItemsList,
-  item,
-  title,
-  setOldBillFromInvoice,
-}) {
+function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, item, title, setOldBillFromInvoice }) {
   const [itemName, setItemName] = useState("");
   const [itemQTY, setItemQty] = useState("");
   const [itemPrice, setPrice] = useState("");
@@ -57,7 +48,7 @@ function Item({
       }}
     >
       <div
-        className="item-name-from"
+        className='item-name-from'
         style={{
           display: "flex",
           flexDirection: "column",
@@ -70,14 +61,14 @@ function Item({
             position: "relative",
             bottom: "2px",
           }}
-          htmlFor="tem-name-from"
+          htmlFor='tem-name-from'
         >
           Item Name
         </label>
         <input
           defaultValue={title === "Edit Invoice" ? item?.name : ""}
           onChange={(e) => setItemName(e.target.value)}
-          type="text"
+          type='text'
           style={{
             position: "relative",
             maxWidth: "300px",
@@ -89,7 +80,7 @@ function Item({
       </div>
 
       <div
-        className="item-qty-from"
+        className='item-qty-from'
         style={{
           display: "flex",
           flexDirection: "column",
@@ -102,14 +93,14 @@ function Item({
             position: "relative",
             bottom: "2px",
           }}
-          htmlFor="item-qty-from"
+          htmlFor='item-qty-from'
         >
           Qty.
         </label>
         <input
           defaultValue={title === "Edit Invoice" ? item?.qty : ""}
           onChange={(e) => setItemQty(e.target.value)}
-          type="number"
+          type='number'
           min={0}
           style={{
             backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
@@ -123,7 +114,7 @@ function Item({
       </div>
 
       <div
-        className="item-price-from"
+        className='item-price-from'
         style={{
           display: "flex",
           flexDirection: "column",
@@ -136,14 +127,14 @@ function Item({
             position: "relative",
             bottom: "2px",
           }}
-          htmlFor="item-price-from"
+          htmlFor='item-price-from'
         >
           Price
         </label>
         <input
           defaultValue={title === "Edit Invoice" ? item?.price : ""}
           onChange={(e) => setPrice(e.target.value)}
-          type="number"
+          type='number'
           min={0}
           style={{
             border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
@@ -168,7 +159,7 @@ function Item({
             color: `${theme ? "#333" : "#fff"}`,
             position: "relative",
           }}
-          htmlFor="item-total-from"
+          htmlFor='item-total-from'
         >
           Total
         </label>

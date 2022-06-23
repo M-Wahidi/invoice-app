@@ -28,9 +28,7 @@ function ItemList({ addItem, handleAddItem, title, openForm }) {
       const targetInvoice = doc(db, "Users", auth.currentUser.uid);
       const invoice = await getDoc(targetInvoice, (doc) => doc);
       const { invoiceList } = invoice.data();
-      const currentInvoice = invoiceList.find(
-        (elem) => elem.invoiceNo === invoiceID
-      );
+      const currentInvoice = invoiceList.find((elem) => elem.invoiceNo === invoiceID);
       const { items } = currentInvoice;
       setOldBillFromInvoice(items);
       setItemsList(items);
@@ -65,22 +63,11 @@ function ItemList({ addItem, handleAddItem, title, openForm }) {
         padding: "1rem",
       }}
     >
-      <h2 style={{ color: `${theme ? "#333" : "#fff"}`, opacity: "0.5" }}>
-        Item List
-      </h2>
+      <h2 style={{ color: `${theme ? "#333" : "#fff"}`, opacity: "0.5" }}>Item List</h2>
 
       {title !== "Edit Invoice" &&
         itemsList.map((elem) => {
-          return (
-            <Item
-              key={elem.id}
-              handleDelete={handleDelete}
-              handleAddItem={handleAddItem}
-              id={elem.id}
-              addItem={addItem}
-              setItemsList={setItemsList}
-            />
-          );
+          return <Item key={elem.id} handleDelete={handleDelete} handleAddItem={handleAddItem} id={elem.id} addItem={addItem} setItemsList={setItemsList} />;
         })}
 
       {title === "Edit Invoice" &&

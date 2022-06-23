@@ -17,9 +17,7 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm, setLoading }) {
     const targetDoc = doc(db, "Users", auth.currentUser.uid);
     const userInvoices = await getDoc(targetDoc);
     const { invoiceList } = userInvoices.data();
-    const filteredInvoice = invoiceList.filter(
-      (elem) => elem.invoiceNo !== invoiceId
-    );
+    const filteredInvoice = invoiceList.filter((elem) => elem.invoiceNo !== invoiceId);
     await setDoc(doc(db, "Users", auth.currentUser.uid), {
       invoiceList: filteredInvoice,
     });
@@ -36,9 +34,7 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm, setLoading }) {
     const userInvoices = await getDoc(targetDoc);
     const { invoiceList } = userInvoices.data();
     const filteredInvoice = invoiceList.map((elem) => {
-      return elem.invoiceNo === invoiceId
-        ? { ...elem, invoiceStatus: "Paid" }
-        : elem;
+      return elem.invoiceNo === invoiceId ? { ...elem, invoiceStatus: "Paid" } : elem;
     });
     await setDoc(
       doc(db, "Users", auth.currentUser.uid),
@@ -47,16 +43,14 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm, setLoading }) {
       },
       { merge: true }
     );
-    const targetInvoice = filteredInvoice.find(
-      (elem) => elem.invoiceNo === invoiceId
-    );
+    const targetInvoice = filteredInvoice.find((elem) => elem.invoiceNo === invoiceId);
     setLoading(false);
     setInvoice(targetInvoice);
   };
 
   return (
     <div
-      className="invoice-action-header"
+      className='invoice-action-header'
       style={{
         marginTop: "2rem",
         color: `${theme ? "#333" : "#fff"}`,
@@ -82,12 +76,7 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm, setLoading }) {
             zIndex: 1,
           }}
         >
-          <Modal
-            type="delete"
-            openModal={openModal}
-            setOpenModal={setOpenModal}
-            handleDelete={handleDelete}
-          />
+          <Modal type='delete' openModal={openModal} setOpenModal={setOpenModal} handleDelete={handleDelete} />
         </div>
       )}
       <div
@@ -111,15 +100,7 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm, setLoading }) {
                 ? "rgba(223, 227, 250, 0.06)"
                 : "rgba(55, 59, 83, 0.06)"
             }`,
-            color: `${
-              invoice?.invoiceStatus === "Paid"
-                ? "rgba(51, 214, 159)"
-                : invoice?.invoiceStatus === "Pending"
-                ? "#FF8F00"
-                : invoice?.invoiceStatus === "Draft" && !theme
-                ? "#DFE3FA"
-                : "#333"
-            }`,
+            color: `${invoice?.invoiceStatus === "Paid" ? "rgba(51, 214, 159)" : invoice?.invoiceStatus === "Pending" ? "#FF8F00" : invoice?.invoiceStatus === "Draft" && !theme ? "#DFE3FA" : "#333"}`,
             padding: ".3rem 1rem",
             borderRadius: "6px",
             display: "flex",
@@ -134,10 +115,7 @@ function InvoiceAction({ invoice, setInvoice, setOpenForm, setLoading }) {
       </div>
 
       <div style={{ display: `${width < 700 ? "none" : "flex"}`, gap: "1rem" }}>
-        <button
-          onClick={() => setOpenForm(true)}
-          style={{ ...buttonStyle, ...EditButtonStyle }}
-        >
+        <button onClick={() => setOpenForm(true)} style={{ ...buttonStyle, ...EditButtonStyle }}>
           Edit
         </button>
         <button onClick={() => setOpenModal(true)} style={buttonStyle}>

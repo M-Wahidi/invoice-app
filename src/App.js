@@ -18,7 +18,6 @@ function App() {
   const [isOpenProfile, setIsOpenProfile] = useState(false);
   const [loading, setLoading] = useState(false);
   const location = useLocation().pathname;
-
   return (
     <div
       className='App'

@@ -11,7 +11,7 @@ function Loading({ type, color }) {
         zIndex: 999999,
       }}
     >
-      <ReactLoading type={type} color={color} className="loading" />
+      <ReactLoading type={type} color={color} className='loading' />
     </div>
   );
 }
