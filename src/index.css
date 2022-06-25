@@ -258,7 +258,7 @@ input:focus {
   border: 1px solid #7c5df9 !important;
 }
 .profile-overlay {
-  backdrop-filter: "blur(5px)";
+  backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
 .profile-overlay a:hover {

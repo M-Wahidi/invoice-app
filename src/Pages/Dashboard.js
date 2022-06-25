@@ -43,16 +43,38 @@ function Dashboard({ setOpenForm }) {
             position: "relative",
             bottom: "1rem",
             margin: "0",
-            fontSize: `${width < 450 ? "1.6rem" : "1.9rem"}`,
+            fontSize: `${
+              width < 400 ? "1.1rem" : width < 650 ? "1.3rem" : "1.6rem"
+            }`,
             fontWeight: "bold",
             color: "#7c5df9",
           }}
         >
-          Hello {user?.name}
+          <span
+            style={{
+              fontSize: `${
+                width < 400 ? ".8rem" : width < 650 ? "1rem" : "1.2rem"
+              }`,
+            }}
+          >
+            Hello,{" "}
+          </span>
+          {user?.name}
         </div>
 
-        <InvoiceInfoContainer sortInvoice={sortInvoice} setSortInvoice={setSortInvoice} setOpenForm={setOpenForm} setFilterItem={setFilterItem} invoiceLength={invoiceLength} />
-        <InvoiceList sortInvoice={sortInvoice} id={id} filterItem={filterItem} setInvoiceLength={setInvoiceLength} />
+        <InvoiceInfoContainer
+          sortInvoice={sortInvoice}
+          setSortInvoice={setSortInvoice}
+          setOpenForm={setOpenForm}
+          setFilterItem={setFilterItem}
+          invoiceLength={invoiceLength}
+        />
+        <InvoiceList
+          sortInvoice={sortInvoice}
+          id={id}
+          filterItem={filterItem}
+          setInvoiceLength={setInvoiceLength}
+        />
       </div>
     </div>
   );

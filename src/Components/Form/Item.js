@@ -3,7 +3,17 @@ import { AiFillDelete } from "react-icons/ai";
 import { ThemeFunc } from "../../Context/ThemeContext";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 
-function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, item, title, setOldBillFromInvoice }) {
+function Item({
+  handleDelete,
+  id = "",
+  addItem,
+  handleAddItem,
+  setItemsList,
+  item,
+  title,
+  setOldBillFromInvoice,
+  handleChcekInput,
+}) {
   const [itemName, setItemName] = useState("");
   const [itemQTY, setItemQty] = useState("");
   const [itemPrice, setPrice] = useState("");
@@ -48,7 +58,7 @@ function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, ite
       }}
     >
       <div
-        className='item-name-from'
+        className="item-name-from"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -61,7 +71,7 @@ function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, ite
             position: "relative",
             bottom: "2px",
           }}
-          htmlFor='tem-name-from'
+          htmlFor="tem-name-from"
         >
           Item Name
         </label>
@@ -69,19 +79,25 @@ function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, ite
           defaultValue={title === "Edit Invoice" ? item?.name : ""}
           onChange={(e) => setItemName(e.target.value)}
           required
-          type='text'
+          type="text"
           style={{
             position: "relative",
             maxWidth: "300px",
             backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
-            border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+            border: `${
+              itemName === "" && handleChcekInput
+                ? "1px solid rgb(236, 87, 87)"
+                : theme
+                ? "1px solid rgb(223, 227, 250) "
+                : ""
+            }`,
             color: `${theme ? "#333" : "#fff"}`,
           }}
         />
       </div>
 
       <div
-        className='item-qty-from'
+        className="item-qty-from"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -94,7 +110,7 @@ function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, ite
             position: "relative",
             bottom: "2px",
           }}
-          htmlFor='item-qty-from'
+          htmlFor="item-qty-from"
         >
           Qty.
         </label>
@@ -102,11 +118,17 @@ function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, ite
           defaultValue={title === "Edit Invoice" ? item?.qty : ""}
           onChange={(e) => setItemQty(e.target.value)}
           required
-          type='number'
+          type="number"
           min={0}
           style={{
             backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
-            border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+            border: `${
+              itemQTY === "" && handleChcekInput
+                ? "1px solid rgb(236, 87, 87)"
+                : theme
+                ? "1px solid rgb(223, 227, 250) "
+                : ""
+            }`,
             color: `${theme ? "#333" : "#fff"}`,
             textAlign: "center",
             margin: "0",
@@ -116,7 +138,7 @@ function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, ite
       </div>
 
       <div
-        className='item-price-from'
+        className="item-price-from"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -129,18 +151,24 @@ function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, ite
             position: "relative",
             bottom: "2px",
           }}
-          htmlFor='item-price-from'
+          htmlFor="item-price-from"
         >
           Price
         </label>
         <input
           defaultValue={title === "Edit Invoice" ? item?.price : ""}
           onChange={(e) => setPrice(e.target.value)}
-          type='number'
+          type="number"
           required
           min={0}
           style={{
-            border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
+            border: `${
+              itemPrice === "" && handleChcekInput
+                ? "1px solid rgb(236, 87, 87)"
+                : theme
+                ? "1px solid rgb(223, 227, 250) "
+                : ""
+            }`,
             backgroundColor: `${theme ? "#fff" : "#1f213a"}`,
             color: `${theme ? "#333" : "#fff"}`,
           }}
@@ -162,7 +190,7 @@ function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, ite
             color: `${theme ? "#333" : "#fff"}`,
             position: "relative",
           }}
-          htmlFor='item-total-from'
+          htmlFor="item-total-from"
         >
           Total
         </label>

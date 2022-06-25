@@ -7,7 +7,11 @@ import InvoiceItem from "./InvoiceItem";
 function InvoiceList({ id, filterItem, setInvoiceLength, sortInvoice }) {
   const [invoices, setInvoices] = useState([]);
   const filterData = () => {
-    const filterdArr = invoices.filter((elem) => (filterItem === "" ? elem : elem.invoiceStatus.toLowerCase() === filterItem.toLowerCase()));
+    const filterdArr = invoices.filter((elem) =>
+      filterItem === ""
+        ? elem
+        : elem.invoiceStatus.toLowerCase() === filterItem.toLowerCase()
+    );
     return filterdArr;
   };
 
@@ -31,7 +35,10 @@ function InvoiceList({ id, filterItem, setInvoiceLength, sortInvoice }) {
         marginTop: "3rem",
       }}
     >
-      {invoices && filterData().map((invoices, key) => <InvoiceItem invoices={invoices} key={key} />)}
+      {invoices &&
+        filterData().map((invoices, key) => (
+          <InvoiceItem invoices={invoices} key={key} />
+        ))}
     </div>
   );
 }

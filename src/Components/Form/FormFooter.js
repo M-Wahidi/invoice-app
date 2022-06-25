@@ -1,7 +1,15 @@
 import React, { useRef } from "react";
 import { ThemeFunc } from "../../Context/ThemeContext";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
-function FormFooter({ opitionOne = "", opitionTwo = "", opitionThree = "", setHandleAddItem, setOpenForm, setInvoiceStatus, title }) {
+function FormFooter({
+  opitionOne = "",
+  opitionTwo = "",
+  opitionThree = "",
+  setHandleChechkInput,
+  setOpenForm,
+  setInvoiceStatus,
+  title,
+}) {
   const { theme } = ThemeFunc();
   const { width } = useWindowDimensions();
   const cancelBtn = useRef();
@@ -11,6 +19,7 @@ function FormFooter({ opitionOne = "", opitionTwo = "", opitionThree = "", setHa
   };
 
   const handleDraftClick = (e) => {
+    setHandleChechkInput(true);
     if (title === "Edit Invoice") {
       setOpenForm((prev) => !prev);
       e.preventDefault();
@@ -20,14 +29,17 @@ function FormFooter({ opitionOne = "", opitionTwo = "", opitionThree = "", setHa
 
   const handleSaveClick = (e) => {
     setInvoiceStatus("Pending");
+    setHandleChechkInput(true);
   };
 
   return (
     <div
-      className='from-footer'
+      className="from-footer"
       style={{
         display: "flex",
-        justifyContent: `${title === "Create Invoice" ? "space-between" : "flex-end"}`,
+        justifyContent: `${
+          title === "Create Invoice" ? "space-between" : "flex-end"
+        }`,
         padding: "1rem ",
         alignItems: "center",
         position: "sticky",

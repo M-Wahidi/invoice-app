@@ -6,7 +6,14 @@ import { getDoc, doc } from "firebase/firestore";
 import { db, auth } from "../../API/firebaseconfig";
 import { ThemeFunc } from "../../Context/ThemeContext";
 
-function ItemList({ addItem, handleAddItem, title, openForm }) {
+function ItemList({
+  addItem,
+  handleAddItem,
+  title,
+  openForm,
+  checkEmptyItem,
+  handleChcekInput,
+}) {
   const [itemsList, setItemsList] = useState([]);
   const [oldBillFromInvoice, setOldBillFromInvoice] = useState([]);
   const invoicePath = useLocation();
@@ -28,11 +35,23 @@ function ItemList({ addItem, handleAddItem, title, openForm }) {
       const targetInvoice = doc(db, "Users", auth.currentUser.uid);
       const invoice = await getDoc(targetInvoice, (doc) => doc);
       const { invoiceList } = invoice.data();
-      const currentInvoice = invoiceList.find((elem) => elem.invoiceNo === invoiceID);
+      const currentInvoice = invoiceList.find(
+        (elem) => elem.invoiceNo === invoiceID
+      );
       const { items } = currentInvoice;
       setOldBillFromInvoice(items);
       setItemsList(items);
     }
+  };
+  const handlecreateItem = (e) => {
+    e.preventDefault();
+    if (title === "Edit Invoice") {
+      const id = uuidv4();
+      setOldBillFromInvoice((prev) => [...prev, { id: id }]);
+
+      return;
+    }
+    setItemsList((prev) => [...prev, { id: uuidv4() }]);
   };
 
   useEffect(() => {
@@ -44,16 +63,13 @@ function ItemList({ addItem, handleAddItem, title, openForm }) {
     }
   }, [openForm]);
 
-  const handlecreateItem = (e) => {
-    e.preventDefault();
-
+  useEffect(() => {
     if (title === "Edit Invoice") {
-      const id = uuidv4();
-      setOldBillFromInvoice((prev) => [...prev, { id: id }]);
+      checkEmptyItem(oldBillFromInvoice);
       return;
     }
-    setItemsList((prev) => [...prev, { id: uuidv4() }]);
-  };
+    checkEmptyItem(itemsList);
+  }, [itemsList, oldBillFromInvoice]);
 
   return (
     <div
@@ -65,11 +81,23 @@ function ItemList({ addItem, handleAddItem, title, openForm }) {
         padding: "1rem",
       }}
     >
-      <h2 style={{ color: `${theme ? "#333" : "#fff"}`, opacity: "0.5" }}>Item List</h2>
+      <h2 style={{ color: `${theme ? "#333" : "#fff"}`, opacity: "0.5" }}>
+        Item List
+      </h2>
 
       {title !== "Edit Invoice" &&
         itemsList.map((elem) => {
-          return <Item key={elem.id} handleDelete={handleDelete} handleAddItem={handleAddItem} id={elem.id} addItem={addItem} setItemsList={setItemsList} />;
+          return (
+            <Item
+              key={elem.id}
+              handleDelete={handleDelete}
+              handleAddItem={handleAddItem}
+              id={elem.id}
+              addItem={addItem}
+              setItemsList={setItemsList}
+              handleChcekInput={handleChcekInput}
+            />
+          );
         })}
 
       {title === "Edit Invoice" &&
@@ -86,6 +114,7 @@ function ItemList({ addItem, handleAddItem, title, openForm }) {
               title={title}
               openForm={openForm}
               setOldBillFromInvoice={setOldBillFromInvoice}
+              handleChcekInput={handleChcekInput}
             />
           );
         })}

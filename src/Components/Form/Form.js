@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Overlay from "../Global/Overlay";
 import BillFrom from "./BillFrom";
 import BillTo from "./BillTo";
@@ -13,7 +13,7 @@ import { db, auth } from "../../API/firebaseconfig";
 import getTodayDate from "../../Helper/getTodayDate";
 import { useLocation } from "react-router-dom";
 import { ThemeFunc } from "../../Context/ThemeContext";
-
+import Loading from "../Global/Loading";
 function Form({ title, openForm, setOpenForm }) {
   const { width } = useWindowDimensions();
   const [handleAddItem, setHandleAddItem] = useState(false);
@@ -25,10 +25,14 @@ function Form({ title, openForm, setOpenForm }) {
   const [payemntTerms, setPaymentTerms] = useState("");
   const [invoiceStatus, setInvoiceStatus] = useState("");
   const [error, setError] = useState(false);
+  const [handleChcekInput, setHandleChechkInput] = useState(false);
   const invoicePath = useLocation();
   const { theme } = ThemeFunc();
+  const isListEmpty = useRef(null);
+
   const sendInvoice = async () => {
     if (error) return;
+
     const invoiceRef = doc(db, "Users", auth.currentUser.uid);
     if (title !== "Edit Invoice") {
       await setDoc(
@@ -101,7 +105,9 @@ function Form({ title, openForm, setOpenForm }) {
       const targetInvoice = doc(db, "Users", auth.currentUser.uid);
       const invoice = await getDoc(targetInvoice, (doc) => doc);
       const { invoiceList } = invoice.data();
-      const currentInvoice = invoiceList.find((elem) => elem.invoiceNo === invoiceID);
+      const currentInvoice = invoiceList.find(
+        (elem) => elem.invoiceNo === invoiceID
+      );
       setData(currentInvoice);
     }
   };
@@ -122,6 +128,7 @@ function Form({ title, openForm, setOpenForm }) {
   }, [handleAddItem]);
 
   useEffect(() => {
+    setHandleChechkInput(false);
     if (openForm && title === "Create Invoice") {
       clearForm([setDiscrpition, setInvoiceDate, setPaymentTerms]);
     } else {
@@ -129,20 +136,37 @@ function Form({ title, openForm, setOpenForm }) {
     }
   }, [openForm]);
 
-  console.log(items.length);
+  const checkEmptyItem = (list) => {
+    if (list.length === 0) {
+      isListEmpty.current = false;
+    } else {
+      isListEmpty.current = true;
+    }
+  };
+
   const handleSubmitInvoice = (e) => {
     e.preventDefault();
-    setOpenForm((prev) => !prev);
+    if (isListEmpty.current === false) return;
     setHandleAddItem(true);
+    setOpenForm((prev) => !prev);
   };
 
   return (
     <>
       <div
-        className='form-container'
+        className="form-container"
         style={{
-          left: `${openForm && width <= 950 ? "0px" : openForm && width > 768 ? "90px" : width <= 950 && !openForm ? "-800px" : "-700px"}`,
+          left: `${
+            openForm && width <= 950
+              ? "0px"
+              : openForm && width > 768
+              ? "90px"
+              : width <= 950 && !openForm
+              ? "-800px"
+              : "-700px"
+          }`,
           backgroundColor: `${theme ? "#fff" : "#141625"}`,
+          zIndex: 3,
         }}
       >
         <h2
@@ -155,8 +179,21 @@ function Form({ title, openForm, setOpenForm }) {
           {title}
         </h2>
         <form onSubmit={handleSubmitInvoice}>
-          <BillFrom handleAddItem={handleAddItem} addFromAddress={addFromAddress} openForm={openForm} title={title} getInvoiceBillFormData={getInvoiceBillFormData} />
-          <BillTo handleAddItem={handleAddItem} addToAddress={addToAddress} openForm={openForm} title={title} />
+          <BillFrom
+            handleAddItem={handleAddItem}
+            addFromAddress={addFromAddress}
+            openForm={openForm}
+            title={title}
+            getInvoiceBillFormData={getInvoiceBillFormData}
+            handleChcekInput={handleChcekInput}
+          />
+          <BillTo
+            handleAddItem={handleAddItem}
+            addToAddress={addToAddress}
+            openForm={openForm}
+            title={title}
+            handleChcekInput={handleChcekInput}
+          />
           <InvoiceInfo
             handleAddItem={handleAddItem}
             setDiscrpition={setDiscrpition}
@@ -168,18 +205,33 @@ function Form({ title, openForm, setOpenForm }) {
             openForm={openForm}
             title={title}
             getInvoiceBillFormData={getInvoiceBillFormData}
+            handleChcekInput={handleChcekInput}
           />
-          <ItemList setItems={setItems} handleAddItem={handleAddItem} addItem={addItem} openForm={openForm} title={title} />
-          {error && (
+          <ItemList
+            setItems={setItems}
+            handleAddItem={handleAddItem}
+            addItem={addItem}
+            openForm={openForm}
+            title={title}
+            checkEmptyItem={checkEmptyItem}
+            handleChcekInput={handleChcekInput}
+          />
+          {handleChcekInput && (
             <div style={{ paddingLeft: "1.5rem" }}>
-              <p style={{ color: "rgb(236, 87, 87)", fontSize: "12px" }}>- All fields must be filled.</p>
-              <p style={{ color: "rgb(236, 87, 87)", fontSize: "12px" }}>- An item must be added.</p>
+              <p style={{ color: "rgb(236, 87, 87)", fontSize: "12px" }}>
+                - All fields must be filled.
+              </p>
+              <p style={{ color: "rgb(236, 87, 87)", fontSize: "12px" }}>
+                - An item must be added.
+              </p>
             </div>
           )}
           <FormFooter
             opitionOne={title === "Create Invoice" ? "Discard" : ""}
             opitionTwo={title === "Create Invoice" ? "Save as Draft" : "Cancel"}
-            opitionThree={title === "Create Invoice" ? "Save & Send" : "Save Changes"}
+            opitionThree={
+              title === "Create Invoice" ? "Save & Send" : "Save Changes"
+            }
             setOpenForm={setOpenForm}
             setHandleAddItem={setHandleAddItem}
             handleAddItem={handleAddItem}
@@ -189,6 +241,7 @@ function Form({ title, openForm, setOpenForm }) {
             addressFrom={addressFrom}
             error={error}
             items={items}
+            setHandleChechkInput={setHandleChechkInput}
           />
         </form>
       </div>
@@ -198,4 +251,4 @@ function Form({ title, openForm, setOpenForm }) {
   );
 }
 
-export default Form;
+export default React.memo(Form);
