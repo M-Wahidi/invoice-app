@@ -91,6 +91,7 @@ function InvoiceInfo({ setDiscrpition, setInvoiceDate, setPaymentTerms, discrpit
         </label>
         <input
           type='text'
+          required
           onChange={(e) => setDiscrpition(e.target.value)}
           value={discrpition}
           style={{

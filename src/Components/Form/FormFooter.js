@@ -1,34 +1,24 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useRef } from "react";
 import { ThemeFunc } from "../../Context/ThemeContext";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
-function FormFooter({ opitionOne = "", opitionTwo = "", opitionThree = "", setOpenForm, setHandleAddItem, setInvoiceStatus, title, error, handleAddItem }) {
+function FormFooter({ opitionOne = "", opitionTwo = "", opitionThree = "", setHandleAddItem, setOpenForm, setInvoiceStatus, title }) {
   const { theme } = ThemeFunc();
   const { width } = useWindowDimensions();
+  const cancelBtn = useRef();
 
   const handleDiscardClick = () => {
     setOpenForm((prev) => !prev);
   };
 
-  const handleDraftClick = () => {
+  const handleDraftClick = (e) => {
     if (title === "Edit Invoice") {
       setOpenForm((prev) => !prev);
-      return;
+      e.preventDefault();
     }
-    setOpenForm((prev) => !prev);
     setInvoiceStatus("Draft");
-    setHandleAddItem(true);
   };
 
-  const handleSaveClick = () => {
-    if (title === "Edit Invoice") {
-      setOpenForm((prev) => !prev);
-      setInvoiceStatus("Pending");
-      setHandleAddItem(true);
-      return;
-    }
-    setHandleAddItem(true);
-    setOpenForm((prev) => !prev);
+  const handleSaveClick = (e) => {
     setInvoiceStatus("Pending");
   };
 
@@ -72,7 +62,7 @@ function FormFooter({ opitionOne = "", opitionTwo = "", opitionThree = "", setOp
         }}
       >
         {opitionTwo && (
-          <button onClick={handleDraftClick} style={buttonTwo}>
+          <button ref={cancelBtn} onClick={handleDraftClick} style={buttonTwo}>
             {opitionTwo}
           </button>
         )}

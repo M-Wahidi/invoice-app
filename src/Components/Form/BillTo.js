@@ -75,6 +75,7 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
         </label>
         <input
           type='text'
+          required
           onChange={(e) => setClientName(e.target.value)}
           value={clientName}
           style={{
@@ -91,6 +92,7 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
         </label>
         <input
           type='text'
+          required
           onChange={(e) => setClientEmail(e.target.value)}
           value={clientEmail}
           style={{
@@ -107,6 +109,7 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
         </label>
         <input
           type='text'
+          required
           onChange={(e) => setStreetAddress(e.target.value)}
           value={streetAddress}
           style={{
@@ -124,6 +127,7 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
           </label>
           <input
             type='text'
+            required
             onChange={(e) => setCity(e.target.value)}
             value={city}
             style={{
@@ -139,6 +143,7 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
           </label>
           <input
             type='text'
+            required
             onChange={(e) => setPostCode(e.target.value)}
             value={postCode}
             style={{
@@ -154,6 +159,7 @@ function BillTo({ handleAddItem, addToAddress, openForm, title }) {
           </label>
           <input
             type='text'
+            required
             onChange={(e) => setCountry(e.target.value)}
             value={country}
             style={{

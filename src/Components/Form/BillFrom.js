@@ -53,6 +53,7 @@ function BillFrom({ handleAddItem, addFromAddress, openForm, title, getInvoiceBi
         </label>
         <input
           type='text'
+          required
           onChange={(e) => setStreetAddress(e.target.value)}
           value={streetAddress}
           style={{
@@ -76,6 +77,7 @@ function BillFrom({ handleAddItem, addFromAddress, openForm, title, getInvoiceBi
           </label>
           <input
             type='text'
+            required
             onChange={(e) => setCity(e.target.value)}
             value={city}
             style={{
@@ -91,6 +93,7 @@ function BillFrom({ handleAddItem, addFromAddress, openForm, title, getInvoiceBi
           </label>
           <input
             type='text'
+            required
             onChange={(e) => setPostCode(e.target.value)}
             value={postCode}
             style={{
@@ -106,6 +109,7 @@ function BillFrom({ handleAddItem, addFromAddress, openForm, title, getInvoiceBi
           </label>
           <input
             type='text'
+            required
             onChange={(e) => setCountry(e.target.value)}
             value={country}
             style={{

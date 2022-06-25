@@ -27,7 +27,6 @@ function Form({ title, openForm, setOpenForm }) {
   const [error, setError] = useState(false);
   const invoicePath = useLocation();
   const { theme } = ThemeFunc();
-
   const sendInvoice = async () => {
     if (error) return;
     const invoiceRef = doc(db, "Users", auth.currentUser.uid);
@@ -130,6 +129,13 @@ function Form({ title, openForm, setOpenForm }) {
     }
   }, [openForm]);
 
+  console.log(items.length);
+  const handleSubmitInvoice = (e) => {
+    e.preventDefault();
+    setOpenForm((prev) => !prev);
+    setHandleAddItem(true);
+  };
+
   return (
     <>
       <div
@@ -148,41 +154,45 @@ function Form({ title, openForm, setOpenForm }) {
         >
           {title}
         </h2>
-        <BillFrom handleAddItem={handleAddItem} addFromAddress={addFromAddress} openForm={openForm} title={title} getInvoiceBillFormData={getInvoiceBillFormData} />
-        <BillTo handleAddItem={handleAddItem} addToAddress={addToAddress} openForm={openForm} title={title} />
-        <InvoiceInfo
-          handleAddItem={handleAddItem}
-          setDiscrpition={setDiscrpition}
-          setInvoiceDate={setInvoiceDate}
-          setPaymentTerms={setPaymentTerms}
-          invoiceDate={invoiceDate}
-          discrpition={discrpition}
-          payemntTerms={payemntTerms}
-          openForm={openForm}
-          title={title}
-          getInvoiceBillFormData={getInvoiceBillFormData}
-        />
-        <ItemList setItems={setItems} handleAddItem={handleAddItem} addItem={addItem} openForm={openForm} title={title} />
-        {error && (
-          <div style={{ paddingLeft: "1.5rem" }}>
-            <p style={{ color: "rgb(236, 87, 87)", fontSize: "12px" }}>- All fields must be filled.</p>
-            <p style={{ color: "rgb(236, 87, 87)", fontSize: "12px" }}>- An item must be added.</p>
-          </div>
-        )}
-        <FormFooter
-          opitionOne={title === "Create Invoice" ? "Discard" : ""}
-          opitionTwo={title === "Create Invoice" ? "Save as Draft" : "Cancel"}
-          opitionThree={title === "Create Invoice" ? "Save & Send" : "Save Changes"}
-          setOpenForm={setOpenForm}
-          setHandleAddItem={setHandleAddItem}
-          handleAddItem={handleAddItem}
-          setInvoiceStatus={setInvoiceStatus}
-          title={title}
-          addressFrom={addressFrom}
-          error={error}
-          items={items}
-        />
+        <form onSubmit={handleSubmitInvoice}>
+          <BillFrom handleAddItem={handleAddItem} addFromAddress={addFromAddress} openForm={openForm} title={title} getInvoiceBillFormData={getInvoiceBillFormData} />
+          <BillTo handleAddItem={handleAddItem} addToAddress={addToAddress} openForm={openForm} title={title} />
+          <InvoiceInfo
+            handleAddItem={handleAddItem}
+            setDiscrpition={setDiscrpition}
+            setInvoiceDate={setInvoiceDate}
+            setPaymentTerms={setPaymentTerms}
+            invoiceDate={invoiceDate}
+            discrpition={discrpition}
+            payemntTerms={payemntTerms}
+            openForm={openForm}
+            title={title}
+            getInvoiceBillFormData={getInvoiceBillFormData}
+          />
+          <ItemList setItems={setItems} handleAddItem={handleAddItem} addItem={addItem} openForm={openForm} title={title} />
+          {error && (
+            <div style={{ paddingLeft: "1.5rem" }}>
+              <p style={{ color: "rgb(236, 87, 87)", fontSize: "12px" }}>- All fields must be filled.</p>
+              <p style={{ color: "rgb(236, 87, 87)", fontSize: "12px" }}>- An item must be added.</p>
+            </div>
+          )}
+          <FormFooter
+            opitionOne={title === "Create Invoice" ? "Discard" : ""}
+            opitionTwo={title === "Create Invoice" ? "Save as Draft" : "Cancel"}
+            opitionThree={title === "Create Invoice" ? "Save & Send" : "Save Changes"}
+            setOpenForm={setOpenForm}
+            setHandleAddItem={setHandleAddItem}
+            handleAddItem={handleAddItem}
+            setInvoiceStatus={setInvoiceStatus}
+            invoiceStatus={invoiceStatus}
+            title={title}
+            addressFrom={addressFrom}
+            error={error}
+            items={items}
+          />
+        </form>
       </div>
+
       {openForm && <Overlay setOpenForm={setOpenForm} />}
     </>
   );

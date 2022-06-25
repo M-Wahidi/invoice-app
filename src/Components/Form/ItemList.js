@@ -44,7 +44,9 @@ function ItemList({ addItem, handleAddItem, title, openForm }) {
     }
   }, [openForm]);
 
-  const handlecreateItem = () => {
+  const handlecreateItem = (e) => {
+    e.preventDefault();
+
     if (title === "Edit Invoice") {
       const id = uuidv4();
       setOldBillFromInvoice((prev) => [...prev, { id: id }]);

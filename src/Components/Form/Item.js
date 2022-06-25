@@ -68,6 +68,7 @@ function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, ite
         <input
           defaultValue={title === "Edit Invoice" ? item?.name : ""}
           onChange={(e) => setItemName(e.target.value)}
+          required
           type='text'
           style={{
             position: "relative",
@@ -100,6 +101,7 @@ function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, ite
         <input
           defaultValue={title === "Edit Invoice" ? item?.qty : ""}
           onChange={(e) => setItemQty(e.target.value)}
+          required
           type='number'
           min={0}
           style={{
@@ -135,6 +137,7 @@ function Item({ handleDelete, id = "", addItem, handleAddItem, setItemsList, ite
           defaultValue={title === "Edit Invoice" ? item?.price : ""}
           onChange={(e) => setPrice(e.target.value)}
           type='number'
+          required
           min={0}
           style={{
             border: `${theme ? "1px solid rgb(223, 227, 250) " : ""}`,
