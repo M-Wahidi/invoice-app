@@ -12,8 +12,12 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 function Login({ setShowForm, loading, setLoading, error, setError }) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(localStorage.getItem("password-invoiceApp") || "");
-  const [rememberPassword, setRememberPassword] = useState(localStorage.getItem("password-invoiceApp") ? true : false);
+  const [password, setPassword] = useState(
+    localStorage.getItem("password-invoiceApp") || ""
+  );
+  const [rememberPassword, setRememberPassword] = useState(
+    localStorage.getItem("password-invoiceApp") ? true : false
+  );
   const { setUser } = AuthCTX();
   const [isShowPassword, setIsShowPassword] = useState(false);
   useEffect(() => {
@@ -80,8 +84,8 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
   };
 
   return (
-    <div className='login-background'>
-      <div className='login-container'>
+    <div className="login-background">
+      <div className="login-container">
         <Logo />
 
         <h1>LOGIN</h1>
@@ -89,42 +93,76 @@ function Login({ setShowForm, loading, setLoading, error, setError }) {
         {!loading && (
           <>
             <form onSubmit={(e) => loginUser(e, auth, email, password)}>
-              <input type='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
               <div style={{ position: "relative", cursor: "pointer" }}>
                 <input
-                  className='password-input'
+                  className="password-input"
                   type={`${isShowPassword ? "text" : "password"}`}
-                  placeholder='Password'
+                  placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  autoComplete='on'
+                  autoComplete="on"
                 />
-                <span onClick={() => setIsShowPassword((prev) => !prev)} style={{ position: "absolute", top: "20px", right: "7px", fontSize: "20px" }}>
+                <span
+                  onClick={() => setIsShowPassword((prev) => !prev)}
+                  style={{
+                    position: "absolute",
+                    top: "20px",
+                    right: "7px",
+                    fontSize: "20px",
+                  }}
+                >
                   {isShowPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
                 </span>
               </div>
 
-              <div className='login-remember'>
+              <div className="login-remember">
                 <div>
-                  <input style={{ marginRight: "5px" }} type='checkbox' defaultChecked={rememberPassword || ""} id='remember-user' onChange={() => setRememberPassword((prev) => !prev)} />
-                  <label htmlFor='remember-user'>Remember Me</label>
+                  <input
+                    style={{ marginRight: "5px" }}
+                    type="checkbox"
+                    defaultChecked={rememberPassword || ""}
+                    id="remember-user"
+                    onChange={() => setRememberPassword((prev) => !prev)}
+                  />
+                  <label htmlFor="remember-user">Remember Me</label>
                 </div>
 
-                <label style={{ cursor: "pointer", textAlign: "right", color: "blue", textDecoration: "underline" }} onClick={() => setShowForm(2)}>
+                <label
+                  style={{
+                    cursor: "pointer",
+                    textAlign: "right",
+                    color: "blue",
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => setShowForm(2)}
+                >
                   Forget Password?
                 </label>
               </div>
-              <button type='submit' className='login-btn'>
+              <button type="submit" className="login-btn">
                 LOGIN
               </button>
             </form>
             <h4>Or login with</h4>
-            <button onClick={handleLoginWithGoogle} className='btn google-signin'>
-              <img src={googleIcon} alt='Google' /> Google
+            <button
+              onClick={handleLoginWithGoogle}
+              className="btn google-signin"
+            >
+              <img src={googleIcon} alt="Google" /> Google
             </button>
             <h4>
               Not a member?
-              <u style={{ marginLeft: "5px" }} className='signup-btn' onClick={() => setShowForm(1)}>
+              <u
+                style={{ marginLeft: "5px" }}
+                className="signup-btn"
+                onClick={() => setShowForm(1)}
+              >
                 Sign up now
               </u>
             </h4>

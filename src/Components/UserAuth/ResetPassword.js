@@ -38,27 +38,59 @@ function ResetPassword({ setShowForm, loading, setLoading, error, setError }) {
   }, [timer]);
 
   return (
-    <div className='reset-background'>
-      <div className='reset-container'>
+    <div className="reset-background">
+      <div className="reset-container">
         <Logo />
         <h1>RESET PASSSOWRD</h1>
         {loading ? (
           <Loading type={"spin"} color={"white"} />
         ) : (
-          <form style={{ paddingBottom: "1rem" }} onSubmit={handleResetEmail}>
-            <input type='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input className='reset-btn' style={{ background: "#d33f8d", color: "#fff", cursor: "pointer" }} type='submit' />
+          <form style={{ paddingBottom: "1.7rem" }} onSubmit={handleResetEmail}>
+            <input
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              className="reset-btn"
+              style={{
+                background: "#d33f8d",
+                color: "#fff",
+                cursor: "pointer",
+              }}
+              type="submit"
+            />
           </form>
         )}
         {showResetMessage && (
           <p>
             Reset Link has been sent,
-            <span style={{ cursor: "pointer", marginLeft: "5px", textDecoration: "underline", color: "blue" }} onClick={() => setShowForm(0)}>
+            <span
+              style={{
+                cursor: "pointer",
+                marginLeft: "5px",
+                textDecoration: "underline",
+                color: "blue",
+              }}
+              onClick={() => setShowForm(0)}
+            >
               Login here, Redirect in {timer}
             </span>
           </p>
         )}
-        <button style={{ cursor: "pointer", fontSize: ".8rem", height: "25px", position: "absolute", left: "5px" }} className='backHomeBtnStyle' onClick={() => setShowForm(0)}>
+        <button
+          style={{
+            cursor: "pointer",
+            fontSize: ".8rem",
+            height: "25px",
+            position: "absolute",
+            left: "5px",
+            bottom: "2px",
+          }}
+          className="backHomeBtnStyle"
+          onClick={() => setShowForm(0)}
+        >
           Home
         </button>
       </div>
