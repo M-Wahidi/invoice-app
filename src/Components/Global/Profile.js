@@ -1,12 +1,10 @@
 import React from "react";
-import { auth } from "../../API/firebaseconfig";
-import defaultImage from "../../Assets/default-profile-picture.png";
 
 function Profile({ setIsOpenProfile }) {
   return (
     <div
       onClick={() => setIsOpenProfile(true)}
-      className='profile-image'
+      className="profile-image"
       style={{
         width: "50px",
         cursor: "pointer",
@@ -18,8 +16,10 @@ function Profile({ setIsOpenProfile }) {
       }}
     >
       <img
-        src={auth.currentUser.photoURL || defaultImage}
-        alt='default'
+        src={
+          "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
+        }
+        alt="profilePicture"
         style={{
           width: "100%",
           objectFit: "cover",
